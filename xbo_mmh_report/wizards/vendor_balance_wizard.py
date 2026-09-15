@@ -25,13 +25,16 @@ class VendorBalanceWizard(models.TransientModel):
 
         lines = []
         for p in partners:
+            balance = self._get_balance(p)
+            if balance <= 0:
+                continue
             address = ', '.join(filter(None, [p.street, p.street2, p.city, p.country_id.name]))
             lines.append({
                 'type': 'Vendors',
                 'name': p.name,
                 'address': address,
                 'phone': getattr(p, 'mobile', False) or p.phone or '',
-                'balance': self._get_balance(p),
+                'balance': balance,
             })
         data = {'date_from': self.date_from, 'date_to': self.date_to, 'lines': lines}
         return self.env.ref('xbo_mmh_report.action_vendor_balance_report').report_action(self, data=data)

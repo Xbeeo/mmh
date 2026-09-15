@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_purchaseorder_document_inherit" inherit_id="purchase.report_purchaseorder_document">
+
+        <!-- 1. Add "Vendor" label above the existing address block (t-set="address") -->
+        <xpath expr="//t[@t-set='address']//div[@t-field='o.partner_id']" position="before">
+            <strong class="d-block mb-1">Vendor Name</strong>
+        </xpath>
+
+        <!-- 2. Replace Buyer value: show user's company instead of the user -->
+        <xpath expr="//div[@t-if='o.user_id']//div[@t-field='o.user_id']" position="replace">
+            <div t-field="o.user_id.company_id"/>
+        </xpath>
+
+    </template>
+</odoo>

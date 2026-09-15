@@ -14,7 +14,7 @@
 
     'website': 'https://xbeeo.com',
 
-    "depends": ['base','xbo_mmh_custom','basic_hms'],
+    "depends": ['base', 'xbo_mmh_custom', 'basic_hms'],
 
     "data": [
         'security/ir.model.access.csv',
@@ -28,6 +28,7 @@
         'report/sale_summary_report_template.xml',
         'report/medical_inpatient_registration.xml',
         'report/hospital_discharge_slip.xml',
+        'report/report_purchase_order_inherit.xml',
         'report/report_action.xml',
         'wizards/multidays_profit_loss_wizard.xml',
         'wizards/pos_profit_loss_wizard_views.xml',
@@ -38,13 +39,8 @@
 
     ],
 
-
-
-
     'license': 'LGPL-3',
     'installable': True,
     'auto_install': False,
-
-
 
 }
