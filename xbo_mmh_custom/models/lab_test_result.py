@@ -8,6 +8,7 @@ class MedicalLabInherit(models.Model):
     _inherit = "medical.lab"
     _description = 'medical.lab Inherit'
 
+    date_analysis =  fields.Datetime('Date of the Analysis', default = fields.Datetime.now)
     invoice_count = fields.Integer(string="Journal Entries", compute='_invoice_total')
     amount_invoice = fields.Float(string="Amount", compute='_invoice_total', group_operator="sum", store=True)
     patient_type_id = fields.Many2one("patient.type", string="Patient Type", related='patient_id.patient_id.patient_type_id', store=True)
