@@ -12,5 +12,12 @@
             <div t-field="o.user_id.company_id"/>
         </xpath>
 
+        <xpath expr="//div[@id='informations']/div[@t-if='o.user_id']" position="after">
+            <div t-if="o.user_id" class="col">
+                <strong>Created by</strong>
+                <div t-field="o.user_id"/>
+            </div>
+        </xpath>
+
     </template>
 </odoo>
