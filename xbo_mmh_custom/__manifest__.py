@@ -44,6 +44,7 @@
         'views/purchase_order_views.xml',
         'views/account_payment_views.xml',
         'views/medical_inpatient_registration.xml',
+        'views/medical_physician_views.xml',
         'data/ir_cron.xml',
         'views/stock_lot_views.xml',
         'views/stock_move_views.xml',

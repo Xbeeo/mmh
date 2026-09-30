@@ -1,0 +1,13 @@
+<odoo>
+    <record id="medical_physician_form_inherit" model="ir.ui.view">
+        <field name="name">medical.physician.form.inherit</field>
+        <field name="model">medical.physician</field>
+        <field name="inherit_id" ref="basic_hms.medical_physician_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="cnic"/>
+                <field name="phone"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
