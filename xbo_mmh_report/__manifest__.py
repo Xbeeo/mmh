@@ -14,7 +14,7 @@
 
     'website': 'https://xbeeo.com',
 
-    "depends": ['base', 'xbo_mmh_custom', 'basic_hms'],
+    "depends": ['base', 'xbo_mmh_custom', 'basic_hms','hr_expense'],
 
     "data": [
         'security/ir.model.access.csv',
@@ -29,6 +29,7 @@
         'report/medical_inpatient_registration.xml',
         'report/hospital_discharge_slip.xml',
         'report/report_purchase_order_inherit.xml',
+        'report/bulk_expense_report.xml',
         'report/report_action.xml',
         'wizards/multidays_profit_loss_wizard.xml',
         'wizards/pos_profit_loss_wizard_views.xml',
@@ -36,6 +37,7 @@
         'wizards/vendor_balance_views.xml',
         'wizards/discharge_slip_wizard_views.xml',
         'wizards/sales_summary_report_wizard_view.xml',
+        'wizards/bulk_expense_wizard_views.xml',
 
     ],
 

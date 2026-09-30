@@ -1,0 +1,63 @@
+<odoo>
+    <record id="action_bulk_expense_report" model="ir.actions.report">
+        <field name="name">Bulk Expense Report</field>
+        <field name="model">bulk.expense.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">xbo_mmh_report.report_bulk_expense</field>
+        <field name="report_file">xbo_mmh_report.report_bulk_expense</field>
+    </record>
+
+    <template id="report_bulk_expense">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3 class="text-center"><b>Expense Report</b></h3>
+                        <p class="text-center">
+                            <b>From:</b> <t t-out="o.date_from.strftime('%d %B %Y')"/>
+                            &#160;&#160;<b>To:</b> <t t-out="o.date_to.strftime('%d %B %Y')"/>
+                        </p>
+                        <t t-set="lines" t-value="o._get_expenses()"/>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th><b>Sr#</b></th><th><b>Date</b></th><th><b>Employee</b></th><th><b>Name</b></th>
+                                    <th class="text-end"><b>Unit Price</b></th>
+                                    <th class="text-end"><b>Qty</b></th><th><b>Taxes</b></th>
+                                    <th class="text-end"><b>Subtotal</b></th><th><b>Paid By</b></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="lines" t-as="l">
+                                    <td><t t-out="l_index + 1"/></td>
+                                    <td><t t-out="l.date.strftime('%d/%m/%y') if l.date else ''"/></td>
+                                    <td><t t-out="l.employee_id.name"/></td>
+                                    <td><t t-out="l.name"/></td>
+                                    <td class="text-end"><t t-out="'{:,.2f}'.format(l.price_unit)"/></td>
+                                    <td class="text-end"><t t-out="'{:,.2f}'.format(l.quantity)"/></td>
+                                    <td><t t-out="', '.join(l.tax_ids.mapped('name'))"/></td>
+                                    <td class="text-end"><t t-out="'{:,.2f}'.format(l.untaxed_amount_currency)"/></td>
+                                    <td><t t-out="'Employee' if l.payment_mode == 'own_account' else 'Company'"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-sm table-bordered mt-3" style="width:50%; margin-left:auto;">
+                            <tr>
+                                <td><b>Total Untaxed Amount</b></td>
+                                <td class="text-end"><b><t t-out="'{:,.2f}'.format(sum(lines.mapped('untaxed_amount_currency')))"/></b></td>
+                            </tr>
+                            <tr>
+                                <td><b>Total Taxes</b></td>
+                                <td class="text-end"><b><t t-out="'{:,.2f}'.format(sum(lines.mapped('tax_amount_currency')))"/></b></td>
+                            </tr>
+                            <tr>
+                                <td><b>Grand Total</b></td>
+                                <td class="text-end"><b><t t-out="'{:,.2f}'.format(sum(lines.mapped('total_amount_currency')))"/></b></td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

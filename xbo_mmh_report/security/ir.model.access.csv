@@ -4,3 +4,4 @@ access_pos_profit_loss_wizard,pos.profit.loss.wizard,model_pos_profit_loss_wizar
 access_customer_balance_wizard,customer.balance.wizard,model_customer_balance_wizard,base.group_user,1,1,1,1
 access_vendor_balance_wizard,vendor.balance.wizard,model_vendor_balance_wizard,base.group_user,1,1,1,1
 access_discharge_slip_wizard,discharge.slip.wizard,model_discharge_slip_wizard,base.group_user,1,1,1,1
+access_bulk_expense_wizard,bulk.expense.wizard,model_bulk_expense_wizard,base.group_user,1,1,1,1
