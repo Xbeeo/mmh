@@ -76,7 +76,7 @@ class action_employee_payslip_report(models.AbstractModel):
 
             for pay in employees:
                 first_contract_obj = self.env['hr.version'].search([('employee_id','=',pay.employee_id.id)], order='id asc', limit=1)
-                latest_contract_obj = self.env['hr.version'].search([('employee_id','=',pay.employee_id.id),('state','=','open')], order='id asc', limit=1)
+                latest_contract_obj = self.env['hr.version'].search([('employee_id','=',pay.employee_id.id)], order='id asc', limit=1)
                 salary_details = {
                     'Employee Code': pay.employee_id.pin,
                     'Employee Name': pay.employee_id.name,
