@@ -803,15 +803,15 @@ class HrPayslip(models.Model):
                     # compute the amount of the rule
                     amount, qty, rate = rule._compute_rule(localdict)
                     if rule.check_box_nod:
-                        day_from = datetime.combine(fields.Date.from_string(self.date_from), time.min)
-                        day_to = datetime.combine(fields.Date.from_string(self.date_to), time.max)
+                        day_from = datetime.combine(fields.Date.from_string(payslip.date_from), time.min)
+                        day_to = datetime.combine(fields.Date.from_string(payslip.date_to), time.max)
                         work_data = contract.employee_id._get_work_days_data(
                             day_from,
                             day_to,
                             calendar=contract.resource_calendar_id,
                             compute_leaves=False,
                         )
-                        payslip_start_date = datetime.strptime(str(self.date_from), '%Y-%m-%d')
+                        payslip_start_date = datetime.strptime(str(payslip.date_from), '%Y-%m-%d')
                         payslip_start_month = payslip_start_date.month
                         payslip_start_year = payslip_start_date.year
                         no_of_days = self._numberOfDays(payslip_start_year, payslip_start_month)
