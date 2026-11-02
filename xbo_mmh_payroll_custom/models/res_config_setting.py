@@ -17,6 +17,7 @@ class ResCompanyInh(models.Model):
     advance_tax_salaries_account_id = fields.Many2one('account.account', string='Advance Tax On Salaries', tracking=True)
     advance_staff_agains_salary_deduction_account_id = fields.Many2one('account.account', string='Advance to Staff against Salary Deduction', tracking=True)
     loan_against_PF_deduction_account_id = fields.Many2one('account.account', string='Loan Against PF Deduction', tracking=True)
+    deduction_against_loan_account_id = fields.Many2one('account.account', string='Deduction Against Loan', tracking=True)
     half_day_leave_deduction_account_id = fields.Many2one('account.account', string='Half-Day Leave Deduction', tracking=True)
     excess_leave_deduction_account_id = fields.Many2one('account.account', string='Excess Leave Deduction', tracking=True)
 
@@ -70,6 +71,12 @@ class ConfigSettingsInherit(models.TransientModel):
     loan_against_PF_deduction_account_id = fields.Many2one(comodel_name='account.account',
                                                       related='company_id.loan_against_PF_deduction_account_id',
                                                       readonly=False, string="Loan Against PF Deduction")
+
+    deduction_against_loan_account_id = fields.Many2one(comodel_name='account.account',
+                                                           related='company_id.deduction_against_loan_account_id',
+                                                           readonly=False, string="Deduction Against Loan")
+
+
 
     half_day_leave_deduction_account_id = fields.Many2one(comodel_name='account.account',
                                                       related='company_id.half_day_leave_deduction_account_id',

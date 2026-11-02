@@ -44,6 +44,7 @@
         'wizards/provident_fund_profit.xml',
         'wizards/provident_fund_disbursed.xml',
         'wizards/print_employee_payslip.xml',
+        'wizards/hr_loan_fixed_installment_views.xml',
     ],
 
 }

@@ -52,7 +52,11 @@ class HrPayslip(models.Model):
                     for loan_line in loan.loan_lines:
                         if (date_from <= loan_line.date <= date_to and
                                 not loan_line.paid):
-                            result['amount'] = loan_line.amount
+                            result['amount'] = (
+                                loan_line.paid_amount
+                                if loan_line.paid_amount
+                                else loan_line.amount
+                            )
                             result['loan_line_id'] = loan_line.id
                     # if lo_code == 'LO':
                     #     res.append({
@@ -180,6 +184,21 @@ class HrPayslip(models.Model):
     def custom_action_payslip_done(self):
         """ Compute the loan amount and remaining amount while confirming
                     the payslip"""
+
+        self.compute_sheet()
+
+        for slip in self:
+            net_line = slip.details_by_salary_rule_category.filtered(
+                lambda l: l.code == 'NET'
+            )
+
+            if net_line and net_line.total < 0:
+                raise ValidationError(
+                    _("The net salary of employee %s cannot be negative. "
+                      "Please review the deductions before confirming the payslip.")
+                    % slip.employee_id.name
+                )
+
         pf_obj = self.env['provident.fund'].search([('payslip_id', '=', self.id)])
         if pf_obj:
             pf_obj.state = 'done'
@@ -189,7 +208,6 @@ class HrPayslip(models.Model):
                 line.loan_line_id.paid = True
                 line.loan_line_id.loan_id._compute_total_amount()
 
-        self.compute_sheet()
         self.write({'state': 'done'})
 
         for slip in self:
@@ -389,6 +407,30 @@ class HrPayslip(models.Model):
                         'tax_line_id': line.salary_rule_id.account_tax_id.id,
                     })
                     line_ids1.append(credit_line)
+
+            line = slip.details_by_salary_rule_category.filtered(lambda l: l.code == 'LO')
+            amount = abs(currency.round(slip.credit_note and -line.total or line.total))
+            if not currency.is_zero(amount):
+                if not slip.company_id.deduction_against_loan_account_id:
+                    raise UserError(
+                        _('Missing Deduction Against Loan Account in General Setting'))
+                credit_account_id = slip.company_id.deduction_against_loan_account_id.id
+
+                if credit_account_id:
+                    credit_line = (0, 0, {
+                        'name': line.name,
+                        'partner_id': line._get_partner_id(credit_account=True),
+                        'account_id': credit_account_id,
+                        'journal_id': slip.journal_id.id,
+                        'date': date,
+                        'debit': amount < 0.0 and -amount or 0.0,
+                        'credit': amount > 0.0 and amount or 0.0,
+                        'analytic_distribution': {
+                            line.salary_rule_id.analytic_account_id.id: 100} if line.salary_rule_id.analytic_account_id else {},
+                        'tax_line_id': line.salary_rule_id.account_tax_id.id,
+                    })
+                    line_ids1.append(credit_line)
+
 
             line = slip.details_by_salary_rule_category.filtered(lambda l: l.code == 'LD')
             amount = abs(currency.round(slip.credit_note and -line.total or line.total))

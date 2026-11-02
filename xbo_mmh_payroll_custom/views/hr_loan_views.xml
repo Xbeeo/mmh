@@ -26,8 +26,14 @@
                             invisible="state in ('approve','refuse')"/>
                     <button name="action_submit" type="object" string="Submit" invisible="state != 'draft'"
                             class="oe_highlight"/>
-                    <button name="action_reset_to_draft" type="object" string="Reset To Draft" invisible="state != 'waiting_approval_1'"
+                    <button name="action_reset_to_draft" type="object" string="Reset To Draft"
+                            invisible="state != 'waiting_approval_1'"
                             class="oe_highlight"/>
+                    <button name="action_fixed_installment"
+                            type="object"
+                            string="Fixed Installment"
+                            class="oe_highlight"
+                            invisible="state != 'approve'"/>
                     <button name="action_approve" type="object"
                             string="Approve" invisible="state != 'waiting_approval_1'"
                             class="oe_highlight"
@@ -54,16 +60,16 @@
                         <field name="date"/>
                         <field name="department_id"/>
                         <field name="job_position_id"/>
-                        <field name="by_pass_validation" />
-                        <field name="total_pf_amount" readonly="1" invisible="type_code != 'pfloan'" />
-                        <field name="loan_amount" readonly="state != 'draft'" />
-                        <field name="installment" readonly="state != 'draft'" />
-                        <field name="payment_date" readonly="state != 'draft'" />
+                        <field name="by_pass_validation"/>
+                        <field name="total_pf_amount" readonly="1" invisible="type_code != 'pfloan'"/>
+                        <field name="loan_amount" readonly="state != 'draft'"/>
+                        <field name="installment" readonly="state != 'draft'"/>
+                        <field name="payment_date" readonly="state != 'draft'"/>
                         <field name="company_id" options="{'no_create': True}"
                                readonly="state != 'draft'"
                                groups="base.group_multi_company"/>
                         <field name="currency_id"
-                               options="{'no_create': True}" readonly="state != 'draft'" />
+                               options="{'no_create': True}" readonly="state != 'draft'"/>
                         <field name="type_code" invisible="1"/>
                     </group>
                     <notebook>
@@ -72,6 +78,7 @@
                                 <list string="Installments" editable="bottom">
                                     <field name="date"/>
                                     <field name="amount"/>
+                                    <field name="paid_amount"/>
                                     <field name="paid"
                                            column_invisible="True"/>
                                 </list>

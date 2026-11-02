@@ -36,6 +36,9 @@
                         <setting id="loan_against_PF_deduction_account" string="Loan Against PF Deduction" company_dependent="1" >
                             <field name="loan_against_PF_deduction_account_id" options="{'no_create': True, 'no_open': True}"/>
                         </setting>
+                        <setting id="deduction_against_loan_account" string="Deduction Against Loan" company_dependent="1" >
+                            <field name="deduction_against_loan_account_id" options="{'no_create': True, 'no_open': True}"/>
+                        </setting>
                         <setting id="half_day_leave_deduction_account_id" string="Late Deduction" company_dependent="1" >
                             <field name="half_day_leave_deduction_account_id" options="{'no_create': True, 'no_open': True}"/>
                         </setting>

@@ -27,6 +27,7 @@ class HrLoanLine(models.Model):
     """ Model for managing details of loan request installments"""
     _name = "hr.loan.line"
     _description = "Installment Line"
+    _rec_name = "date"
 
     date = fields.Date(string="Payment Date", required=True,
                        help="Date of the payment")
@@ -40,6 +41,11 @@ class HrLoanLine(models.Model):
     payslip_id = fields.Many2one('hr.payslip', string="Payslip Ref.",
                                  help="Reference to the associated "
                                       "payslip, if any.")
+
+    paid_amount = fields.Float(
+        string="Paid Amount",
+        help="Actual amount paid against this installment."
+    )
 
 
 

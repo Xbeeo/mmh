@@ -136,16 +136,45 @@ class HrLoan(models.Model):
                 x.total_pf_amount = total_pf
 
     def _compute_total_amount(self):
-        """ Compute total loan amount,balance amount and total paid amount"""
-        total_paid = 0.0
+        """Compute total loan amount, balance amount and total paid amount."""
         for loan in self:
-            for line in loan.loan_lines:
-                if line.paid:
-                    total_paid += line.amount
-            balance_amount = loan.loan_amount - total_paid
+            total_paid = sum(
+                line.paid_amount
+                for line in loan.loan_lines
+                if line.paid
+            )
+
             loan.total_amount = loan.loan_amount
-            loan.balance_amount = balance_amount
             loan.total_paid_amount = total_paid
+            loan.balance_amount = loan.loan_amount - total_paid
+
+    def action_fixed_installment(self):
+        self.ensure_one()
+
+        installment = self.loan_lines.filtered(
+            lambda line: not line.paid
+        ).sorted(
+            key=lambda line: line.date
+        )[:1]
+
+        if not installment:
+            raise UserError(
+                _("There is no unpaid installment available.")
+            )
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Fixed Installment'),
+            'res_model': 'hr.loan.fixed.installment.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_loan_id': self.id,
+                'default_installment_id': installment.id,
+                'default_payment_date': installment.date,
+                'default_fixed_amount': installment.amount,
+            },
+        }
 
     # @api.model
     # def create(self, values):

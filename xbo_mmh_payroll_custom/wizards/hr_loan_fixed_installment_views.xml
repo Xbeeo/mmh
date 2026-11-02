@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_loan_fixed_installment_wizard" model="ir.ui.view">
+        <field name="name">hr.loan.fixed.installment.wizard.form</field>
+        <field name="model">hr.loan.fixed.installment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Fixed Installment">
+
+                <group>
+                    <field name="loan_id" invisible="1"/>
+
+                    <field name="installment_id"
+                           options="{'no_create': True, 'no_open': True}"/>
+
+                    <field name="payment_date"/>
+                    <field name="installment_amount"/>
+                    <field name="fixed_amount"/>
+                </group>
+
+                <footer>
+                    <button name="action_confirm"
+                            type="object"
+                            string="Confirm"
+                            class="btn-primary"/>
+
+                    <button string="Cancel"
+                            special="cancel"
+                            class="btn-secondary"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+</odoo>
