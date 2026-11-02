@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--Tree view for model approval.type -->
+    <record id="approval_type_list" model="ir.ui.view">
+        <field name="name">approval.type.list</field>
+        <field name="model">approval.type</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="approval_type"/>
+                <field name="state"/>
+                <field name="fields_id"/>
+            </list>
+        </field>
+    </record>
+    <!--form view for model approval.type -->
+    <record id="approval_type_form" model="ir.ui.view">
+        <field name="name">approval.type.from</field>
+        <field name="model">approval.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                    <button name="check_approval_type" string="Confirm" invisible="state != 'draft'"
+                            type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="model_id" required="1"/>
+                        </group>
+                        <group>
+                            <field name="approval_type"/>
+                            <field name="fields_id" required="1"
+                               invisible="approval_type != 'custom'"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--Action for the approval.type model-->
+    <record id="approval_type_menu_action" model="ir.actions.act_window">
+        <field name="name">Approval Types</field>
+        <field name="res_model">approval.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!--Menu item for the model approval.type-->
+    <menuitem id="approval_type_menu_item"
+              action="approval_type_menu_action"
+              name="Approval Types"
+              parent="all_in_one_dynamic_approvals_pro.configuration_menu_view"
+              groups="all_in_one_dynamic_approvals_pro.approval_type"
+              sequence="3"/>
+
+</odoo>

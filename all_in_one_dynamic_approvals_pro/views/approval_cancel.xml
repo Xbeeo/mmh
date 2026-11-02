@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Action for the model approval.cancel -->
+        <record id="approval_cancel_menu_action" model="ir.actions.act_window">
+            <field name="name">Approval Cancel</field>
+            <field name="res_model">approval.cancel</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <!--Tree view for the model approval.cancel -->
+        <record id="approval_cancel_list_view" model="ir.ui.view">
+            <field name="name">approval.cancel.list</field>
+            <field name="model">approval.cancel</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="model_id"/>
+                </list>
+            </field>
+        </record>
+        <!--Form view for the model approval.cancel -->
+        <record id="approval_cancel_form" model="ir.ui.view">
+            <field name="name">approval.cancel.form</field>
+            <field name="model">approval.cancel</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="cancel_approval" string="Cancel Approval"
+                                type="object"
+                                class="oe_highlight"
+                                invisible="state == 'confirm'"
+                                groups="all_in_one_dynamic_approvals_pro.group_all_in_one_dynamic_approval_manager"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="model_id" required="True" readonly="state == 'confirm'" />
+                            <field name="record_ids" widget="many2many_tags" required="True" readonly="state == 'confirm'" />
+                        </group>
+                    </sheet>
+<!--                    <div class="oe_chatter">-->
+<!--                        <field name="message_follower_ids"/>-->
+<!--                        <field name="activity_ids"/>-->
+<!--                        <field name="message_ids"/>-->
+<!--                    </div>-->
+                </form>
+            </field>
+        </record>
+        <!--Menu item approval Cancel -->
+        <menuitem id="approval_cancel_menu_view"
+                  name="Cancel Approval"
+                  parent="all_in_one_dynamic_approvals_pro.approval_menu_view"
+                  action="approval_cancel_menu_action"
+                  groups="group_all_in_one_dynamic_approval_manager"
+                  sequence="2"/>
+    </data>
+</odoo>
+
+

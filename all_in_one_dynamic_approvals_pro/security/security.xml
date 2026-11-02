@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+        <record id="module_category_all_in_one_dynamic_approval"
+                model="ir.module.category">
+            <field name="name">All in One Dynamic Approvals</field>
+            <field name="description">
+                Helps you handle your All in One Dynamic Approval Permissions
+            </field>
+            <field name="sequence">5</field>
+        </record>
+
+        <!-- Privilege -->
+        <record id="priv_all_in_one_dynamic_approval"
+                model="res.groups.privilege">
+            <field name="name">Dynamic Approval Permissions</field>
+            <field name="category_id"
+                   ref="all_in_one_dynamic_approvals_pro.module_category_all_in_one_dynamic_approval"/>
+        </record>
+
+        <!-- Approver -->
+        <record id="group_all_in_one_dynamic_approval_approver"
+                model="res.groups">
+            <field name="name">Approver</field>
+            <field name="privilege_id"
+                   ref="all_in_one_dynamic_approvals_pro.priv_all_in_one_dynamic_approval"/>
+        </record>
+
+        <!-- Manager -->
+        <record id="group_all_in_one_dynamic_approval_manager"
+                model="res.groups">
+            <field name="name">Manager</field>
+            <field name="privilege_id"
+                   ref="all_in_one_dynamic_approvals_pro.priv_all_in_one_dynamic_approval"/>
+            <field name="implied_ids"
+                   eval="[
+               (4, ref('all_in_one_dynamic_approvals_pro.group_all_in_one_dynamic_approval_approver'))
+           ]"/>
+        </record>
+
+        <!-- Administrator -->
+        <record id="group_all_in_one_dynamic_approval_administrator"
+                model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="privilege_id"
+                   ref="all_in_one_dynamic_approvals_pro.priv_all_in_one_dynamic_approval"/>
+            <field name="implied_ids"
+                   eval="[
+               (4, ref('all_in_one_dynamic_approvals_pro.group_all_in_one_dynamic_approval_approver')),
+               (4, ref('all_in_one_dynamic_approvals_pro.group_all_in_one_dynamic_approval_manager'))
+           ]"/>
+            <field name="user_ids"
+                   eval="[
+               (4, ref('base.user_root')),
+               (4, ref('base.user_admin'))
+           ]"/>
+        </record>
+
+
+        <record id="approval_type"
+                model="res.groups">
+            <field name="name">Approval type</field>
+        </record>
+
+        <record model="ir.rule" id="dynamic_approval_multi_company_rule">
+            <field name="name">Dynamic Approval Multi Company Rule</field>
+            <field name="model_id" search="[('model','=','dynamic.approval')]"
+                   model="ir.model"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]
+            </field>
+        </record>
+    </data>
+</odoo>
+

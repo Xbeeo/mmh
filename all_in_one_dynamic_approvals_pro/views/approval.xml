@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Action for the model dynamic.approval-->
+        <record id="approval_menu_action" model="ir.actions.act_window">
+            <field name="name">Approval</field>
+            <field name="res_model">dynamic.approval</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <!--Tree view for the model dynamic.approval-->
+        <record id="approval_list_view" model="ir.ui.view">
+            <field name="name">dynamic.approval.list</field>
+            <field name="model">dynamic.approval</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                    <field name="approval_name"/>
+                    <field name="model_id"/>
+                    <field name="state"/>
+                    <field name="company_id" widget="many2many_tags"/>
+                </list>
+            </field>
+        </record>
+        <!--Form view for the model dynamic.approval-->
+        <record id="approval_form" model="ir.ui.view">
+            <field name="name">dynamic.approval.form</field>
+            <field name="model">dynamic.approval</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="create_button" string="Create Approval"
+                                type="object"
+                                class="oe_highlight"
+                                invisible="state not in('draft','cancel','apply')"
+                                groups="all_in_one_dynamic_approvals_pro.group_all_in_one_dynamic_approval_administrator"/>
+                        <button name="set_draft_button" string="Set to Draft"
+                                type="object"
+                                class="oe_highlight"
+                                invisible="state not in('cancel','fail')"
+                                groups="all_in_one_dynamic_approvals_pro.group_all_in_one_dynamic_approval_administrator"/>
+                        <button name="allow_multi_state_approval"
+                                string="Allow Multi State Approval"
+                                type="object"
+                                invisible="state not in('active', 'old') or state_count == False or multi_state_enabled == True or state_specific_approval == True"
+                                class="oe_highlight"
+                                groups="all_in_one_dynamic_approvals_pro.group_all_in_one_dynamic_approval_administrator"/>
+                        <button name="apply_old_record"
+                                string="Apply Approval to Old Records"
+                                invisible="state not in ('active','multi_state_activated') or apply_old_records == True"
+                                type="object"
+                                class="oe_highlight"
+                                groups="all_in_one_dynamic_approvals_pro.group_all_in_one_dynamic_approval_administrator"/>
+                        <button name="update_approvers_list"
+                                string="Update Approvers List" type="object"
+                                class="oe_highlight"
+                                invisible="state not in ('multi_state_activated')"
+                                groups="all_in_one_dynamic_approvals_pro.group_all_in_one_dynamic_approval_administrator"/>
+                        <button name="apply_changes" string="Apply Changes"
+                                type="object"
+                                class="oe_highlight"
+                                invisible="state not in ('update')"
+                                groups="all_in_one_dynamic_approvals_pro.group_all_in_one_dynamic_approval_administrator"/>
+                        <button name="action_approval_cancel" string="Cancel"
+                                invisible="state not in ('active','old','multi_state_activated','apply','update')"
+                                type="object"
+                                confirm="Are you sure you want to delete this record?"
+                                class="oe_highlight"
+                                groups="all_in_one_dynamic_approvals_pro.group_all_in_one_dynamic_approval_administrator"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,active,old,multi_state_activated"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="approval_name"
+                                       readonly="state  not in ['draft']"/>
+                                <field name="model_name" invisible="True"/>
+                                <field name="multi_state_enabled"
+                                       invisible="True"/>
+                                <field name="apply_old_records"
+                                       invisible="True"/>
+                                <field name="list_view_domain_ids"
+                                       invisible="True"/>
+                                <field name="search_view_domain_ids"
+                                       invisible="True"/>
+                                <field name="state_domain" invisible="1"/>
+                                <field name="model_id"
+                                       readonly="state not in ['draft']"/>
+                                <field name="model_states"
+                                       widget="many2many_tags"
+                                       readonly="state not in ['draft']"
+                                       invisible="check_states_type == True"/>
+                                <field name="record_ids"
+                                       widget="many2many_tags"
+                                       readonly="state not in ['draft']"
+                                       invisible="check_states_type == False"/>
+                                <field name="check_states_type"
+                                       invisible="1"/>
+                                <field name="category_id"
+                                       readonly="state not in ['draft']"/>
+                                <field name="action_id"
+                                       widget="many2many_tags"
+                                       readonly="state not in ['draft']"/>
+                                <field name="external_id"/>
+                                <field name="company_id"
+                                       widget="many2many_tags"
+                                       readonly="state not in ['draft']"/>
+                                <field name="approval_method"
+                                       readonly="state not in ['draft']"/>
+                                <field name="state_specific_approval" invisible="approval_method == 'hierarchy'"
+                                       readonly="state not in ['draft']"/>
+                            </group>
+
+                            <group>
+                                <field name="create_uid" string="Responsible"/>
+                                <field name="remove_reports"
+                                       readonly="state not in ['draft']"/>
+                                <field name="state_count" invisible="1"/>
+                                <field name="add_filter"
+                                       readonly="state not in ['draft']"/>
+                                <field name="search_view_name"
+                                       widget="many2many_tags"
+                                       invisible="add_filter == False"
+                                       required="add_filter == True"
+                                       readonly="state not in ['draft']"/>
+                                <field name="search_view_inherit_id"
+                                       invisible="add_filter == False"
+                                       required="add_filter == True"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group>
+                                <separator string="Tree view"/>
+                                <field name="add_approval_status_to_list"
+                                       readonly="state not in ['draft']"/>
+                                <field name="list_view_name"
+                                       widget="many2many_tags"
+                                       invisible="add_approval_status_to_list == False"
+                                       required="add_approval_status_to_list ==True"
+                                       readonly="state not in ['draft']"/>
+                                <field name="list_field_id"
+                                       invisible="add_approval_status_to_list == False"
+                                       readonly="state not in ['draft']"/>
+                                <field name="field_position"
+                                       invisible="add_approval_status_to_list == False"
+                                       readonly="state not in ['draft']"/>
+                                <field name="is_enabled"
+                                       invisible="add_approval_status_to_list == False"
+                                       readonly="state not in ['draft']"/>
+                                <field name="list_view_inherit_id"
+                                       invisible="add_approval_status_to_list ==False"
+                                       required="add_approval_status_to_list == True"/>
+                            </group>
+
+                            <group>
+                                <separator string="Approval Timer"/>
+                                <field name="enable_time_limit"
+                                       readonly="state not in ['draft']"/>
+                                <label for="timer" string="Time Limit"
+                                       class="m-0"
+                                       invisible="enable_time_limit ==False"
+                                       required="enable_time_limit == True"
+                                       readonly="state not in ['draft']"/>
+                                <div>
+                                    <field name="timer"
+                                           class="oe_inline" widget="float_time"
+                                           invisible="enable_time_limit == False"
+                                           required="enable_time_limit == True"
+                                           readonly="state not in ['draft']"/>
+                                    <field name="timer_type"
+                                           invisible="enable_time_limit == False"
+                                           required="enable_time_limit ==True"
+                                           readonly="state not in ['draft']"
+                                           class="oe_inline"/>
+                                </div>
+                                <field name="user_ids" widget="many2many_tags"
+                                       invisible="enable_time_limit == False"
+                                       required="enable_time_limit == True"
+                                       readonly="state not in ['draft']"/>
+                                <field name="individual_time_limit"
+                                       invisible="enable_time_limit ==False"
+                                       readonly="state not in ['draft'] or approval_method in ['hierarchy']"/>
+                                <label for="delay_time"
+                                       invisible="enable_time_limit ==False"
+                                       string="Check Delay Every"/>
+                                <div>
+                                    <field name="delay_time"
+                                           invisible="enable_time_limit == False"
+                                           required="enable_time_limit ==True"
+                                           readonly="state not in ['draft']"
+                                           class="oe_inline"/>
+                                    <field name="delay_type"
+                                           invisible="enable_time_limit == False"
+                                           required="enable_time_limit == True"
+                                           readonly="state not in ['draft']"
+                                           class="oe_inline"/>
+                                </div>
+                                <field name="is_reminder"
+                                       invisible="enable_time_limit == False"
+                                       required="enable_time_limit == True"
+                                       readonly="state not in ['draft']"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Approvers"
+                                  invisible="category_id == False and approval_method != False or approval_method == 'hierarchy'">
+                                <field name="users"
+                                       readonly="state not in('draft','update')">
+                                    <list force_save="1" mode="list,form">
+                                        <field name="handler" widget='handle'/>
+                                        <field name="sequence" readonly="1"/>
+                                        <field name="approval_type"/>
+                                        <field name="user_ids"/>
+                                        <field name="time_limit_active"
+                                               column_invisible="True"/>
+                                        <field name="model_states"/>
+                                        <field name="model_stage_id"/>
+                                        <field name="approver_time_limit"
+                                               widget="float_time"
+                                               invisible="individual_time_active == True and time_limit_active == True"/>
+                                        <field name="individual_time_active"
+                                               column_invisible="True"/>
+                                        <field name="individual_time_limit"
+                                               widget="float_time"
+                                               invisible="individual_time_active == False"
+                                               column_invisible="context.get('individual_time_active')"
+                                               required="1"/>
+                                        <field name="approver_field_id"/>
+                                    </list>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <field name="stage_domain_ids" invisible="1"/>
+                                                <field name="check_state_type" invisible="1"/>
+                                                <field name="sequence"
+                                                       readonly="parent.state not in ('draft','update', 'apply')"/>
+                                                <field name="approval_type_id" options='{"no_open": True, "no_create": True}'/>
+                                                <field name="approver_id"
+                                                       invisible="1"/>
+                                                <field name="model_id"
+                                                       invisible="1"/>
+                                                <field name="approver_field_id"
+                                                       invisible="approval_type != 'custom' "/>
+                                                <field name="approval_type"
+                                                       invisible="1"/>
+                                                <field name="user_ids"
+                                                       readonly="parent.state not in ('draft','update', 'apply')"
+                                                       required="approval_type == 'normal'"
+                                                       invisible="approval_type != 'normal' "/>
+                                                <field name="state_domain" invisible="1"/>
+                                                <field name="model_states" invisible ="parent.state_specific_approval == False or check_state_type == True" required="check_state_type == False and parent.state_specific_approval == True"/>
+                                                <field name="model_stage_id" invisible="check_state_type == False or parent.state_specific_approval == False" required="check_state_type == True and parent.state_specific_approval == True"/>
+                                                <field name="time_limit_active"
+                                                       invisible="1"/>
+                                                <field name="approver_time_limit"
+                                                       widget="float_time"
+                                                       invisible="individual_time_active == True and time_limit_active == True or time_limit_active == False"
+                                                       readonly="parent.state not in ('draft','update', 'apply') or individual_time_limit ==True"/>
+                                                <field name="individual_time_active"
+                                                       invisible="1"/>
+                                                <field name="individual_time_limit"
+                                                       widget="float_time"
+                                                       invisible="individual_time_active ==False"
+                                                       required="individual_time_active == True"
+                                                       readonly="parent.state not in ('draft','update', 'apply')"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+<!--                    <div class="oe_chatter">-->
+<!--                        <field name="message_follower_ids"/>-->
+<!--                        <field name="activity_ids"/>-->
+<!--                        <field name="message_ids"/>-->
+<!--                    </div>-->
+                </form>
+            </field>
+        </record>
+        <!--Menu item All in One Dynamic Approvals for the model dynamic.approval-->
+        <menuitem id="approval_menu"
+                  name="All in One Dynamic Approvals"
+                  groups="group_all_in_one_dynamic_approval_approver,group_all_in_one_dynamic_approval_administrator"
+                  web_icon="all_in_one_dynamic_approvals_pro,static/description/all_in_one_dynamic_approvals_icon.png"
+                  sequence="99"
+        />
+        <!--Menu item Approval for the model dynamic.approval-->
+        <menuitem id="approval_menu_view"
+                  name="Approval"
+                  parent="approval_menu"
+                  groups="group_all_in_one_dynamic_approval_approver,group_all_in_one_dynamic_approval_administrator"
+                  sequence="1"/>
+
+        <!--Menu item Create Approval for the model dynamic.approval-->
+        <menuitem id="create_approval_menu_view"
+                  name="Create Approval"
+                  parent="approval_menu_view"
+                  action="approval_menu_action"
+                  groups="group_all_in_one_dynamic_approval_approver,group_all_in_one_dynamic_approval_administrator"
+                  sequence="1"/>
+    </data>
+</odoo>
+
+

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--Settings inherited view for Manager approval-->
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">
+            res.config.settings.view.form.inherit.all_in_one_dynamic_approvals_pro
+        </field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="11"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form"
+                   position="inside">
+                <div class="app_settings_block"
+                     string="All In One Dynamic Approval Pro"
+                     data-key="all_in_one_dynamic_approvals_pro">
+                    <h2>Approval Types</h2>
+                    <div class="row mt16 o_settings_container">
+                        <setting string="Approval Types"
+                                 help="If enabled approval type menu item wil be visible "
+                                 id="enable_approval_types">
+                            <field name="approval_type"/>
+                        </setting>
+                    </div>
+                </div>
+
+                <div class="app_settings_block"
+                     string="All In One Dynamic Approval Pro"
+                     data-key="all_in_one_dynamic_approvals_pro">
+                    <h2>Approval Authentication Email</h2>
+                    <div class="row mt16 o_settings_container">
+                        <setting string="Approval Cancel Authentication Email"
+                                 help="If enabled Email notifications will be sent to assigned users on cancellation of approval"
+                                 id="enable_approval_types">
+                            <field name="is_notify_approval_cancel"/>
+                            <div class="content-group">
+                                <div class="mt8">
+                                    <field name="cancel_notify_users_ids"
+                                           widget="many2many_tags"
+                                           required="is_notify_approval_cancel"
+                                           invisible="is_notify_approval_cancel == False"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </div>
+
+                    <div class="row mt16 o_settings_container">
+                        <setting string="Approval Create Authentication Email"
+                                 help="If enabled Email notifications will be sent to assigned users on creating the approval"
+                                 id="enable_approval_types">
+                            <field name="is_notify_approval_add"/>
+                            <div class="content-group">
+                                <div class="mt8">
+                                    <field name="add_notify_users_ids"
+                                           widget="many2many_tags"
+                                           required="is_notify_approval_add"
+                                           invisible="is_notify_approval_add == False"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </div>
+
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <!--Action for the settings view-->
+    <record id="res_config_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="res_config_settings_view_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module' : 'all_in_one_dynamic_approvals_pro',
+            'bin_size': False}
+        </field>
+    </record>
+    <!--Menu item for settings-->
+    <menuitem id="configuration_menu_view"
+              name="Configuration"
+              parent="approval_menu"
+              sequence="10"/>
+
+    <menuitem id="settings_menu_view"
+              name="Settings"
+              parent="configuration_menu_view"
+              action="res_config_settings_action"
+              groups="group_all_in_one_dynamic_approval_administrator"
+              sequence="1"/>
+</odoo>

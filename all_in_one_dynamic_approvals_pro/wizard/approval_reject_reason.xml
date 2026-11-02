@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Action for the model reject.reason-->
+        <record id="action_approval_reject_menu" model="ir.actions.act_window">
+            <field name="name">Approval Reject Reason</field>
+            <field name="res_model">reject.reason</field>
+            <field name="view_mode">form</field>
+        </record>
+        <!--Form view for the model reject.reason-->
+        <record id="approval_reject_foam" model="ir.ui.view">
+            <field name="name">reject.reason.form</field>
+            <field name="model">reject.reason</field>
+            <field name="arch" type="xml">
+                <form string="Approval Reject Reason">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="reject_reason"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="reject" string="Save" type="object"
+                                    class="oe_highlight"/>
+                            <button string="Cancel" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
