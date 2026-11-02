@@ -4,12 +4,12 @@
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">3</field>
+        <field name="margin_top">40</field>
         <field name="margin_bottom">10</field>
         <field name="margin_left">7</field>
         <field name="margin_right">7</field>
         <field name="header_line" eval="False"/>
-        <field name="header_spacing">0</field>
+        <field name="header_spacing">43</field>
         <field name="disable_shrinking" eval="True"/>
     </record>
 
@@ -34,7 +34,7 @@
     <template id="customer_balance_report_template">
         <t t-call="web.html_container">
             <t t-call="xbo_mmh_report.custom_patient_external_layout">
-                <div class="page" style="font-size:11px; padding-top:220px;">
+                <div class="page" style="font-size:11px;">
                     <div style="text-align:center; font-size:13px; font-weight:bold; margin-bottom:2px;">
                         Current Balance Report
                     </div>
@@ -49,7 +49,7 @@
                                 <th style="border:1px solid #999; padding:4px;">Type</th>
                                 <th style="border:1px solid #999; padding:4px;">Customer Name</th>
                                 <th style="border:1px solid #999; padding:4px;">Address</th>
-                                <th style="border:1px solid #999; padding:4px;">PhoneNo</th>
+                                <th style="border:1px solid #999; padding:4px;">Phone No</th>
                                 <th style="border:1px solid #999; padding:4px; text-align:right;">Balance</th>
                             </tr>
                         </thead>
@@ -73,15 +73,13 @@
                                 </td>
                                 <t t-set="total_balance" t-value="total_balance + line['balance']"/>
                             </tr>
-                        </tbody>
-                        <tfoot>
                             <tr style="background-color:#dbe5f1; font-weight:bold;">
                                 <td colspan="4" style="border:1px solid #999; padding:4px; text-align:right;">Total</td>
                                 <td style="border:1px solid #999; padding:4px; text-align:right;">
                                     <span t-esc="'{:,.2f}'.format(total_balance)"/>
                                 </td>
                             </tr>
-                        </tfoot>
+                        </tbody>
                     </table>
                 </div>
             </t>
@@ -91,7 +89,23 @@
     <template id="vendor_balance_report_template">
         <t t-call="web.html_container">
             <t t-call="xbo_mmh_report.custom_patient_external_layout">
-                <div class="page" style="font-size:11px; padding-top:220px;">
+                <div class="page" style="font-size:11px;">
+                    <style>
+                        table.balance_table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            font-size: 10px;
+                        }
+
+                        table.balance_table thead {
+                            display: table-header-group;
+                        }
+
+                        table.balance_table tr {
+                            page-break-inside: avoid;
+                        }
+                    </style>
+
                     <div style="text-align:center; font-size:13px; font-weight:bold; margin-bottom:2px;">
                         Current Balance Report
                     </div>
@@ -100,13 +114,13 @@
                         To: <span t-esc="date_to"/>
                     </div>
 
-                    <table style="width:100%; border-collapse:collapse; font-size:10px;">
+                    <table class="balance_table">
                         <thead style="display: table-header-group;">
                             <tr style="background-color:#2E5C99; color:#ffffff;">
                                 <th style="border:1px solid #999; padding:4px;">Type</th>
                                 <th style="border:1px solid #999; padding:4px;">Vendor Name</th>
                                 <th style="border:1px solid #999; padding:4px;">Address</th>
-                                <th style="border:1px solid #999; padding:4px;">PhoneNo</th>
+                                <th style="border:1px solid #999; padding:4px;">Phone No</th>
                                 <th style="border:1px solid #999; padding:4px; text-align:right;">Balance</th>
                             </tr>
                         </thead>
@@ -130,15 +144,13 @@
                                 </td>
                                 <t t-set="total_balance" t-value="total_balance + line['balance']"/>
                             </tr>
-                        </tbody>
-                        <tfoot>
                             <tr style="background-color:#dbe5f1; font-weight:bold;">
                                 <td colspan="4" style="border:1px solid #999; padding:4px; text-align:right;">Total</td>
                                 <td style="border:1px solid #999; padding:4px; text-align:right;">
                                     <span t-esc="'{:,.2f}'.format(total_balance)"/>
                                 </td>
                             </tr>
-                        </tfoot>
+                        </tbody>
                     </table>
                 </div>
             </t>

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+
     <template id="custom_patient_external_layout_striped">
-        <div t-attf-class="o_company_#{company.id}_layout header" style="margin:0; padding:0;">
-            <div class="d-flex" style="margin:0; padding:0; align-items:flex-start;">
-                <div style="width:100%; margin:0; padding:0;">
-                    <img
-                            t-att-src="'/xbo_mmh_custom/static/images/mmh_logo.png'"
-                            style="width:100%; height:190px; object-fit:contain; display:block; margin-top:-10px;"
-                            alt="Logo"/>
-                </div>
+        <div t-attf-class="o_company_#{company.id}_layout header"
+             style="margin:0; padding:0; height:150px; overflow:hidden;">
+            <div style="width:100%; margin:0; padding:0;">
+                <img
+                    t-att-src="'/xbo_mmh_custom/static/images/mmh_logo.png'"
+                    style="width:100%; height:160px; object-fit:contain; display:block; margin:0; padding:0;"
+                    alt="Logo"/>
             </div>
         </div>
-        <div t-attf-class="o_company_#{company.id}_layout article o_report_layout_striped o_table_striped o_snail_mail {{'o_report_layout_background' if company.layout_background != 'Blank' else ''}}"
-             t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else
-                           '/base/static/img/demo_logo_report.png' if company.layout_background == 'Demo logo' else ''}});"
+
+        <div t-attf-class="o_company_#{company.id}_layout article o_report_layout_striped o_table_striped {{'o_report_layout_background' if company.layout_background != 'Blank' else ''}}"
+             t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/demo_logo_report.png' if company.layout_background == 'Demo logo' else ''}});"
              t-att-data-oe-model="o and o._name"
              t-att-data-oe-id="o and o.id"
              t-att-data-oe-lang="o and o.env.context.get('lang')">
@@ -22,8 +22,8 @@
             <h2 t-out="layout_document_title"/>
             <t t-out="0"/>
         </div>
-
     </template>
+
 
     <template id="custom_patient_external_layout">
         <t t-if="not o" t-set="o" t-value="doc"/>

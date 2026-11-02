@@ -1,4 +1,5 @@
 <odoo>
+
     <record id="action_bulk_expense_report" model="ir.actions.report">
         <field name="name">Bulk Expense Report</field>
         <field name="model">bulk.expense.wizard</field>
@@ -8,56 +9,227 @@
     </record>
 
     <template id="report_bulk_expense">
+
         <t t-call="web.html_container">
+
             <t t-foreach="docs" t-as="o">
-                <t t-call="web.external_layout">
+
+                <t t-call="xbo_mmh_report.custom_patient_external_layout">
+
                     <div class="page">
-                        <h3 class="text-center"><b>Expense Report</b></h3>
-                        <p class="text-center">
-                            <b>From:</b> <t t-out="o.date_from.strftime('%d %B %Y')"/>
-                            &#160;&#160;<b>To:</b> <t t-out="o.date_to.strftime('%d %B %Y')"/>
+
+                        <style>
+
+                            /* Main Report Heading */
+                            .expense-title {
+                                background-color: #17365D !important;
+                                color: #FFFFFF !important;
+                                font-size: 22px;
+                                font-weight: bold;
+                                text-align: center;
+                                padding: 12px;
+                                margin-bottom: 15px;
+                                border-bottom: 4px solid #4472C4;
+                            }
+
+                            /* Date Section */
+                            .expense-period {
+                                text-align: center;
+                                font-size: 11px;
+                                color: #444444;
+                                padding: 8px;
+                                background-color: #EAF0F7 !important;
+                                margin-bottom: 18px;
+                                border: 1px solid #D6DFEA;
+                            }
+
+                            /* Expense Table */
+                            .expense-table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                font-size: 9px;
+                            }
+
+                            /* Table Heading */
+                            .expense-table thead th {
+                                background-color: #17365D !important;
+                                color: #FFFFFF !important;
+                                font-size: 9px;
+                                font-weight: bold;
+                                padding: 8px 4px;
+                                text-align: center;
+                                border: 1px solid #17365D !important;
+                            }
+
+                            /* Table Data */
+                            .expense-table tbody td {
+                                font-size: 9px;
+                                color: #333333;
+                                padding: 7px 4px;
+                                border: 1px solid #D6DFEA !important;
+                                vertical-align: middle;
+                            }
+
+                            /* Alternate Row Colors */
+                            .expense-table tbody tr:nth-child(even) {
+                                background-color: #F1F5FA !important;
+                            }
+
+                            .expense-table tbody tr:nth-child(odd) {
+                                background-color: #FFFFFF !important;
+                            }
+
+                            /* Total Section */
+                            .expense-total {
+                                width: 48%;
+                                margin-left: auto;
+                                margin-top: 18px;
+                                border-collapse: collapse;
+                                font-size: 10px;
+                            }
+
+                            .expense-total td {
+                                padding: 8px;
+                                border: 1px solid #D6DFEA !important;
+                            }
+
+                            .expense-total tr:nth-child(odd) {
+                                background-color: #EAF0F7 !important;
+                            }
+
+                            .expense-total tr:last-child {
+                                background-color: #17365D !important;
+                                color: #FFFFFF !important;
+                                font-weight: bold;
+                                font-size: 11px;
+                            }
+
+                            .expense-total tr:last-child td {
+                                color: #FFFFFF !important;
+                                border: 1px solid #17365D !important;
+                            }
+
+                        </style>
+
+                        <!-- Report Title -->
+
+                        <h3 class="expense-title">
+                            EXPENSE REPORT
+                        </h3>
+
+                        <!-- Date Range -->
+
+                        <p class="expense-period">
+
+                            <b>From:</b>
+                            <t t-out="o.date_from.strftime('%d %B %Y')"/>
+
+                            &#160;&#160;&#160;
+
+                            <b>To:</b>
+                            <t t-out="o.date_to.strftime('%d %B %Y')"/>
+
                         </p>
+
+                        <!-- Expense Lines -->
+
                         <t t-set="lines" t-value="o._get_expenses()"/>
-                        <table class="table table-sm table-bordered">
+
+                        <!-- Main Expense Table -->
+
+                        <table class="table table-sm table-bordered expense-table">
+
                             <thead>
                                 <tr>
-                                    <th><b>Sr#</b></th><th><b>Date</b></th><th><b>Employee</b></th><th><b>Name</b></th>
+                                    <th><b>Sr#</b></th>
+                                    <th><b>Date</b></th>
+                                    <th><b>Employee</b></th>
+                                    <th><b>Description</b></th>
                                     <th class="text-end"><b>Unit Price</b></th>
-                                    <th class="text-end"><b>Qty</b></th><th><b>Taxes</b></th>
-                                    <th class="text-end"><b>Subtotal</b></th><th><b>Paid By</b></th>
+                                    <th class="text-end"><b>Qty</b></th>
+                                    <th class="text-end"><b>Total</b></th>
+                                    <th><b>Paid By</b></th>
+                                    <th><b>Status</b></th>
                                 </tr>
                             </thead>
+
                             <tbody>
+
                                 <tr t-foreach="lines" t-as="l">
-                                    <td><t t-out="l_index + 1"/></td>
-                                    <td><t t-out="l.date.strftime('%d/%m/%y') if l.date else ''"/></td>
-                                    <td><t t-out="l.employee_id.name"/></td>
-                                    <td><t t-out="l.name"/></td>
-                                    <td class="text-end"><t t-out="'{:,.2f}'.format(l.price_unit)"/></td>
-                                    <td class="text-end"><t t-out="'{:,.2f}'.format(l.quantity)"/></td>
-                                    <td><t t-out="', '.join(l.tax_ids.mapped('name'))"/></td>
-                                    <td class="text-end"><t t-out="'{:,.2f}'.format(l.untaxed_amount_currency)"/></td>
-                                    <td><t t-out="'Employee' if l.payment_mode == 'own_account' else 'Company'"/></td>
+
+                                    <td>
+                                        <t t-out="l_index + 1"/>
+                                    </td>
+
+                                    <td>
+                                        <t t-out="l.date.strftime('%d %B %Y') if l.date else ''"/>
+                                    </td>
+
+                                    <td>
+                                        <t t-out="l.employee_id.name"/>
+                                    </td>
+
+                                    <td>
+                                        <t t-out="l.name"/>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <t t-out="'{:,.2f}'.format(l.price_unit)"/>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <t t-out="'{:,.2f}'.format(l.quantity)"/>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <t t-out="'{:,.2f}'.format(l.untaxed_amount_currency)"/>
+                                    </td>
+
+                                    <td>
+                                        <t t-out="'Employee' if l.payment_mode == 'own_account' else 'Company'"/>
+                                    </td>
+
+                                    <td>
+                                        <t t-out="dict(l._fields['state'].selection).get(l.state, '')"/>
+                                    </td>
+
                                 </tr>
+
+                                <tr t-if="not lines">
+                                    <td colspan="9" class="text-center">
+                                        No Expense Records Found
+                                    </td>
+                                </tr>
+
                             </tbody>
+
                         </table>
-                        <table class="table table-sm table-bordered mt-3" style="width:50%; margin-left:auto;">
+
+                        <!-- Summary / Totals -->
+
+                        <table class="table table-sm expense-total">
                             <tr>
-                                <td><b>Total Untaxed Amount</b></td>
-                                <td class="text-end"><b><t t-out="'{:,.2f}'.format(sum(lines.mapped('untaxed_amount_currency')))"/></b></td>
+                                <td>
+                                    <b>Total</b>
+                                </td>
+
+                                <td class="text-end">
+                                    <b>
+                                        <t t-out="'{:,.2f}'.format(sum(lines.mapped('total_amount_currency')))"/>
+                                    </b>
+                                </td>
                             </tr>
-                            <tr>
-                                <td><b>Total Taxes</b></td>
-                                <td class="text-end"><b><t t-out="'{:,.2f}'.format(sum(lines.mapped('tax_amount_currency')))"/></b></td>
-                            </tr>
-                            <tr>
-                                <td><b>Grand Total</b></td>
-                                <td class="text-end"><b><t t-out="'{:,.2f}'.format(sum(lines.mapped('total_amount_currency')))"/></b></td>
-                            </tr>
+
                         </table>
+
                     </div>
+
                 </t>
+
             </t>
+
         </t>
+
     </template>
+
 </odoo>

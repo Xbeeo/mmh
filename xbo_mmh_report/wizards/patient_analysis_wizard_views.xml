@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_patient_analysis_wizard_form" model="ir.ui.view">
+        <field name="name">patient.analysis.wizard.form</field>
+        <field name="model">patient.analysis.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Patient Analysis Report">
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="age_from"/>
+                        <field name="age_to"/>
+                        <field name="sex"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_print" string="Print" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_patient_analysis_wizard" model="ir.actions.act_window">
+        <field name="name">Patient Analysis Report</field>
+        <field name="res_model">patient.analysis.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_hospital_reporting" name="Reporting"
+              parent="basic_hms.main_menu_hospital_management" sequence="12"/>
+    <menuitem id="menu_patient_analysis_report" name="Patient Analysis Report"
+              parent="menu_hospital_reporting" action="action_patient_analysis_wizard"/>
+</odoo>

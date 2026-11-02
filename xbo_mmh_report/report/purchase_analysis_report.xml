@@ -1,0 +1,9 @@
+<odoo>
+    <record id="action_purchase_analysis_xlsx" model="ir.actions.report">
+        <field name="name">Purchase Analysis Report</field>
+        <field name="model">purchase.analysis.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">xbo_mmh_report.purchase_analysis_xlsx</field>
+        <field name="report_file">purchase_analysis_report</field>
+    </record>
+</odoo>

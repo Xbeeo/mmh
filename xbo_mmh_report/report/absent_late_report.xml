@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Paper Format -->
+
+    <record id="paperformat_absent_late_employee"
+            model="report.paperformat">
+
+        <field name="name">Absent Late Employee Report</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">25</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+
+    </record>
+
+    <!-- Report Action -->
+
+
+
+    <!-- PDF Template -->
+
+    <template id="report_absent_late_employee">
+
+        <t t-call="web.html_container">
+
+            <t t-call="web.external_layout">
+
+                <div class="page">
+
+                    <h2 class="text-center">
+                        Absent &amp; Late Employee Report
+                    </h2>
+
+                    <div class="row mt-3 mb-3">
+
+                        <div class="col-6">
+                            <strong>Date From:</strong>
+                            <span t-esc="docs.date_from.strftime('%d %B %Y')"/>
+                        </div>
+
+                        <div class="col-6">
+                            <strong>Date To:</strong>
+                            <span t-esc="docs.date_to.strftime('%d %B %Y')"/>
+                        </div>
+
+                    </div>
+
+                    <table class="table table-sm table-bordered">
+
+                        <thead>
+                            <tr style="background-color: #e8e8e8;">
+
+                                <th>Date</th>
+                                <th>Employee Name</th>
+                                <th>Status</th>
+                                <th>Check In</th>
+                                <th>Check Out</th>
+                                <th>Worked Hours</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <t t-if="lines">
+
+                                <t t-foreach="lines" t-as="line">
+
+                                    <tr>
+
+                                        <td>
+                                            <span t-esc="line['date']"/>
+                                        </td>
+
+                                        <td>
+                                            <span t-esc="line['employee']"/>
+                                        </td>
+
+                                        <td>
+                                            <span t-esc="line['status']"
+                                                  t-att-style="
+                                                    'color: red; font-weight: bold;'
+                                                    if line['status'] == 'Late'
+                                                    else 'color: #c0392b; font-weight: bold;'
+                                                  "/>
+                                        </td>
+
+                                        <td>
+                                            <span t-esc="line['check_in']"/>
+                                        </td>
+
+                                        <td>
+                                            <span t-esc="line['check_out']"/>
+                                        </td>
+
+                                        <td>
+                                            <span t-esc="line['worked_hours']"/>
+                                        </td>
+
+                                    </tr>
+
+                                </t>
+
+                            </t>
+
+                            <t t-else="">
+
+                                <tr>
+                                    <td colspan="6"
+                                        class="text-center">
+
+                                        No Absent or Late Employees Found.
+
+                                    </td>
+                                </tr>
+
+                            </t>
+
+                        </tbody>
+
+                    </table>
+
+                    <div class="mt-4 text-end">
+                        <strong>Total Records:</strong>
+                        <span t-esc="len(lines)"/>
+                    </div>
+
+                </div>
+
+            </t>
+
+        </t>
+
+    </template>
+
+    <record id="action_absent_late_employee_report" model="ir.actions.report">
+        <field name="name">Absent &amp; Late Employee Report</field>
+        <field name="model">absent.late.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">xbo_mmh_report.report_absent_late_employee</field>
+        <field name="report_file">xbo_mmh_report.report_absent_late_employee</field>
+        <field name="paperformat_id" ref="xbo_mmh_report.paperformat_absent_late_employee"/>
+        <field name="print_report_name">'Absent &amp; Late Employee Report'</field>
+    </record>
+
+</odoo>

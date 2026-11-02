@@ -1,17 +1,26 @@
 <odoo>
-    <record id="view_bulk_expense_wizard" model="ir.ui.view">
+    <record id="view_bulk_expense_wizard_form" model="ir.ui.view">
         <field name="name">bulk.expense.wizard.form</field>
         <field name="model">bulk.expense.wizard</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Bulk Expense Report">
                 <group>
-                    <field name="date_from"/>
-                    <field name="date_to"/>
-                    <field name="employee_id"/>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="employee_id"/>
+                    </group>
+                    <group>
+<!--                        <field name="department_id"/>-->
+                        <field name="account_id"/>
+                        <field name="product_id"/>
+                        <field name="state"/>
+                    </group>
                 </group>
                 <footer>
-                    <button string="Print" name="action_print" type="object" class="btn-primary"/>
-                    <button string="Cancel" special="cancel"/>
+                    <button name="action_print" string="Print PDF" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button name="action_print_excel" string="Print Excel" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" data-hotkey="x"/>
                 </footer>
             </form>
         </field>

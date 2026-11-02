@@ -1,0 +1,22 @@
+<odoo>
+    <record id="action_inv_analysis_xlsx" model="ir.actions.report">
+        <field name="name">Inventory Analysis Summary</field>
+        <field name="model">product.product</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">xbo_mmh_report.inv_analysis_xlsx</field>
+        <field name="report_file">xbo_mmh_report</field>
+    </record>
+
+    <record id="action_inv_analysis_server" model="ir.actions.server">
+        <field name="name">Inventory Analysis Summary</field>
+        <field name="model_id" ref="product.model_product_product"/>
+        <field name="state">code</field>
+        <field name="code">action = env.ref('xbo_mmh_report.action_inv_analysis_xlsx').report_action(env['product.product'].search([('active','=',True)], limit=1))</field>
+    </record>
+
+    <menuitem id="menu_inv_analysis_summary"
+              name="Inventory Analysis Summary"
+              parent="stock.menu_warehouse_report"
+              action="action_inv_analysis_server"
+              sequence="50"/>
+</odoo>

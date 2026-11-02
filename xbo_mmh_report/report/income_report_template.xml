@@ -1,0 +1,271 @@
+<odoo>
+
+    <record id="action_income_report" model="ir.actions.report">
+        <field name="name">Income Report</field>
+        <field name="model">income.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">xbo_mmh_report.income_report_template</field>
+        <field name="report_file">xbo_mmh_report.income_report_template</field>
+    </record>
+
+    <template id="income_report_template">
+
+        <t t-call="web.html_container">
+
+            <t t-foreach="docs" t-as="o">
+
+                <t t-call="xbo_mmh_report.custom_patient_external_layout">
+
+                    <div class="page">
+
+                        <style>
+
+                            .income-title {
+                            background-color: #17365D !important;
+                            color: white !important;
+                            text-align: center;
+                            font-size: 21px;
+                            font-weight: bold;
+                            padding: 10px;
+                            margin-bottom: 15px;
+                            border-bottom: 3px solid #4472C4;
+                            }
+
+                            .income-period {
+                            text-align: center;
+                            font-size: 14px;
+                            padding: 8px;
+                            background-color: #EAF0F7 !important;
+                            border: 1px solid #D6DFEA;
+                            margin-bottom: 18px;
+                            }
+
+                            .income-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            font-size: 11px;
+                            }
+
+                            .income-table thead th {
+                            background-color: #17365D !important;
+                            color: white !important;
+                            padding: 9px;
+                            font-size: 12px;
+                            border: 1px solid #17365D !important;
+                            }
+
+                            .income-table tbody tr:nth-of-type(odd) > *,
+                            .income-table tbody tr:nth-of-type(even) > * {
+                            background-color: transparent !important;
+                            --bs-table-accent-bg: transparent !important;
+                            box-shadow: none !important;
+                            }
+
+                            .income-table td {
+                            padding: 5px 8px;
+                            font-size: 11px;
+                            color: #222222;
+                            }
+
+                            .income-table tbody tr td.income-section {
+                            background-color: #EAF0F7 !important;
+                            }
+
+                            .income-section {
+                            font-size: 18px;
+                            font-weight: bold;
+                            color: #17365D !important;
+                            padding-top: 10px !important;
+                            padding-bottom: 5px !important;
+                            border-top: 1px dashed #555555;
+                            background-color: #EAF0F7 !important;
+                            }
+
+                            .income-row td {
+                            border: none !important;
+                            }
+
+                            .income-subtotal td {
+                            border: none !important;
+                            padding-top: 8px;
+                            padding-bottom: 8px;
+                            font-weight: bold;
+                            }
+
+                            .income-grand-total {
+                            width: 55%;
+                            margin-left: auto;
+                            margin-top: 15px;
+                            border-collapse: collapse;
+                            }
+
+                            .income-grand-total td {
+                            padding: 9px;
+                            font-size: 13px;
+                            font-weight: bold;
+                            border: 1px solid #17365D !important;
+                            }
+
+                            .income-grand-total td:first-child {
+                            background-color: #EAF0F7 !important;
+                            }
+
+                            .income-grand-total td:last-child {
+                            background-color: #17365D !important;
+                            color: white !important;
+                            text-align: right;
+                            }
+
+                        </style>
+
+                        <!-- Title -->
+
+                        <h3 class="income-title">
+                            INCOME REPORT
+                        </h3>
+
+                        <!-- Date Range -->
+
+
+                        <p class="income-period">
+
+                            <b>Printed By:</b>
+                            <t t-out="o.env.user.name"/>
+
+                            &#160;&#160;|&#160;&#160;
+
+                            <b>From:</b>
+                            <t t-out="o.date_from.strftime('%d %B %Y')"/>
+
+                            &#160;&#160;
+
+                            <b>To:</b>
+                            <t t-out="o.date_to.strftime('%d %B %Y')"/>
+
+                            &#160;&#160;|&#160;&#160;
+
+                            <b>Printed On:</b>
+                            <t t-out="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %I:%M %p')"/>
+
+                        </p>
+
+                        <!-- Report Data -->
+
+                        <t t-set="report_data"
+                           t-value="o._get_report_data()"/>
+
+                        <t t-set="sections"
+                           t-value="report_data['sections']"/>
+
+                        <!-- Main Table -->
+
+                        <table class="table table-sm income-table">
+
+                            <thead>
+                                <tr>
+                                    <th style="text-align:left; width:55%;">
+                                        Name
+                                    </th>
+
+                                    <th style="text-align:center; width:20%;">
+                                        Patient
+                                    </th>
+
+                                    <th style="text-align:right; width:25%;">
+                                        Amount
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <!-- OPD, Tests, Indoor -->
+
+                                <t t-foreach="sections" t-as="section">
+
+                                    <!-- Section Heading -->
+
+                                    <tr>
+                                        <td colspan="3"
+                                            class="income-section">
+
+                                            <t t-out="section['name']"/>
+
+                                        </td>
+                                    </tr>
+
+                                    <!-- Department Rows -->
+
+                                    <t t-foreach="section['rows']" t-as="line">
+
+                                        <tr class="income-row">
+
+                                            <td>
+                                                <t t-out="line['name']"/>
+                                            </td>
+
+                                            <td style="text-align:center;">
+                                                <t t-out="line['patients']"/>
+                                            </td>
+
+                                            <td style="text-align:right;">
+                                                <t t-out="'{:,.0f}'.format(line['amount'])"/>
+                                            </td>
+
+                                        </tr>
+
+                                    </t>
+
+                                    <!-- Section Subtotal -->
+
+                                    <tr class="income-subtotal">
+
+                                        <td>Total</td>
+
+                                        <td></td>
+
+                                        <td style="text-align:right;">
+
+                                            <t t-out="'{:,.0f}'.format(section['total'])"/>
+
+                                        </td>
+
+                                    </tr>
+
+                                </t>
+
+                            </tbody>
+
+                        </table>
+
+                        <!-- Grand Total -->
+
+                        <table class="table table-sm income-grand-total">
+
+                            <tr>
+
+                                <td>
+                                    G. Amount:
+                                </td>
+
+                                <td>
+
+                                    <t t-out="'{:,.0f}'.format(report_data['grand_total'])"/>
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </t>
+
+            </t>
+
+        </t>
+
+    </template>
+
+</odoo>

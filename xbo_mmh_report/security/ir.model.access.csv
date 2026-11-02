@@ -5,3 +5,9 @@ access_customer_balance_wizard,customer.balance.wizard,model_customer_balance_wi
 access_vendor_balance_wizard,vendor.balance.wizard,model_vendor_balance_wizard,base.group_user,1,1,1,1
 access_discharge_slip_wizard,discharge.slip.wizard,model_discharge_slip_wizard,base.group_user,1,1,1,1
 access_bulk_expense_wizard,bulk.expense.wizard,model_bulk_expense_wizard,base.group_user,1,1,1,1
+access_patient_analysis_wizard,patient.analysis.wizard,model_patient_analysis_wizard,account.group_account_user,1,1,1,1
+access_stock_expiry_wizard,access.stock.expiry.wizard,model_stock_expiry_wizard,stock.group_stock_user,1,1,1,1
+access_sale_analysis_wizard,sale.analysis.wizard,model_sale_analysis_wizard,account.group_account_user,1,1,1,1
+access_income_report_wizard,income.report.wizard,model_income_report_wizard,account.group_account_user,1,1,1,1
+access_purchase_analysis_wizard,access.purchase.analysis.wizard,model_purchase_analysis_wizard,purchase.group_purchase_user,1,1,1,1
+access_absent_late_wizard,access.absent.late.wizard,model_absent_late_wizard,,1,1,1,1

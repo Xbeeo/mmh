@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_analysis_wizard_form" model="ir.ui.view">
+        <field name="name">sale.analysis.wizard.form</field>
+        <field name="model">sale.analysis.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Sale Analysis Report">
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="department_id"/>
+                        <field name="dispensary_id"/>
+                        <field name="patient_id"/>
+                        <field name="doctor_id"/>
+                        <field name="item_id"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_print" string="Print" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sale_analysis_wizard" model="ir.actions.act_window">
+        <field name="name">Sale Analysis Report</field>
+        <field name="res_model">sale.analysis.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_sale_analysis_root" name="Sale Analysis"
+              parent="account.menu_finance_reports" sequence="50"/>
+    <menuitem id="menu_sale_analysis_report" name="Sale Analysis Report"
+              parent="menu_sale_analysis_root" action="action_sale_analysis_wizard"/>
+</odoo>

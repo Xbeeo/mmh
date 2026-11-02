@@ -1,0 +1,9 @@
+<odoo>
+    <record id="action_stock_expiry_xlsx" model="ir.actions.report">
+        <field name="name">Stock Expiry Report</field>
+        <field name="model">stock.expiry.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">xbo_mmh_report.stock_expiry_xlsx</field>
+        <field name="report_file">stock_expiry_report</field>
+    </record>
+</odoo>
