@@ -35,5 +35,15 @@
             <field name="interval_type">days</field>
         </record>
 
+        <record id="ir_cron_daily_absent_late_report" model="ir.cron">
+            <field name="name">Daily Absent &amp; Late Employee Report</field>
+            <field name="model_id" ref="model_send_email_user"/>
+            <field name="state">code</field>
+            <field name="code">model.send_daily_absent_late_report()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+
     </data>
 </odoo>

@@ -22,4 +22,4 @@ access_fund_transfer,fund.transfer,model_fund_transfer,base.group_user,1,1,1,1
 access_inpatient_treatment_history_user,inpatient.treatment.history.user,model_inpatient_treatment_history,base.group_user,1,1,1,1
 access_inpatient_medicine_history_user,inpatient.medicine.history.user,model_inpatient_medicine_history,base.group_user,1,1,1,1
 access_inpatient_lab_test_history_user,inpatient.lab.test.history.user,model_inpatient_lab_test_history,base.group_user,1,1,1,1
-
+access_send_email_user,access.send.email.user,model_send_email_user,base.group_user,1,1,1,1

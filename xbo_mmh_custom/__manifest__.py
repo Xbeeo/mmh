@@ -14,7 +14,7 @@
 
     'website': 'https://xbeeo.com',
 
-    "depends": ['base', 'basic_hms', 'contacts', 'hr', 'account', 'point_of_sale', 'report_xlsx', 'om_account_asset' ,'stock','mrp','purchase'],
+    "depends": ['base', 'basic_hms', 'contacts', 'hr', 'account', 'point_of_sale', 'report_xlsx', 'om_account_asset' ,'stock','mrp','purchase','hr_attendance'],
 
     "data": [
         'security/ir.model.access.csv',
@@ -41,6 +41,7 @@
         'views/pos_order_views.xml',
         'views/partner_lab_views.xml',
         'views/outsourced_lab_request_views.xml',
+        'views/send_email_user_views.xml',
         'views/purchase_order_views.xml',
         'views/account_payment_views.xml',
         'views/medical_inpatient_registration.xml',

@@ -6,6 +6,9 @@
         <field name="model">hr.department</field>
         <field name="inherit_id" ref="hr.view_department_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='manager_id']" position="before">
+                <field name="type"/>
+            </xpath>
             <xpath expr="//sheet/group[last()]" position="after">
                 <notebook>
                     <page string="Treatment Type Rate Line" name="treatment_rate_line">

@@ -9,6 +9,11 @@ class HrDepartmentInherit(models.Model):
     _inherit = "hr.department"
 
     treatment_rate_line = fields.One2many("treatment.rate.line", "department_id", string="Treatment Type Rate Line")
+    type = fields.Selection([
+        ('opd', 'OPD'),
+        ('indoor', 'Indoor'),
+    ], string='Type', default='opd', tracking=True)
+
 
 
 class TreatmentRateLine(models.Model):
