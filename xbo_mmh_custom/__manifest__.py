@@ -65,11 +65,11 @@
         # 'report/pos/pos_profit_loss_report_template.xml',
         'views/menuitems_hide.xml',
     ],
-    # 'assets': {
-    #     'web.assets_backend': [
-    #         'xbo_mmh_custom/static/src/manual_attendance_systray.js',
-    #     ],
-    # },
+    'assets': {
+        'web.assets_backend': [
+            'xbo_mmh_custom/static/src/manual_attendance_systray.js',
+        ],
+    },
 
     'license': 'LGPL-3',
     'installable': True,
