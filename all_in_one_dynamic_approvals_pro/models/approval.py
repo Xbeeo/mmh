@@ -694,7 +694,7 @@ for rec in self:
                         if rec[approver.approver_field_id.name].ids:
                             val['approver_id'] = rec[approver.approver_field_id.name][0].id
                         if val['approver_id']:
-                            rec.x_approval_id.group_id.write({'users': [(4,val['approver_id'],0)]})
+                            rec.x_approval_id.group_id.write({'user_ids': [(4,val['approver_id'],0)]})
                         else:
                             if rec.create_uid and rec.id:
                                 rec.message_post(body="Approval request failed since approval type is Custom and Custom field does not meet the requirements for Custom Approval.",
@@ -743,7 +743,7 @@ for rec in self:
                                                  '<br/>''<br/>'
                                                  '<div style="margin: 16px 0px 16px 0px;">'
                                                  '<span>'
-                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href=' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(rec.id) + '&model=' + str(rec._name) + '&view_type=form' + '>View Record</a>'
+                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href="' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/odoo/' + str(rec._name) + '/' + str(rec.id) + '">View Record</a>'
                                                  '</span>'
                                                 '</div>'
                                                 '<br/>''<br/>'
@@ -784,7 +784,7 @@ for rec in self:
                     elif approver.approval_type_id.approval_type == 'manager' and rec.create_uid:
                         if rec.create_uid.employee_id.parent_id.user_id:
                             val['approver_id'] = rec.create_uid.employee_id.parent_id.user_id.id
-                            rec.x_approval_id.group_id.write({'users': [(4,val['approver_id'],0)]})
+                            rec.x_approval_id.group_id.write({'user_ids': [(4,val['approver_id'],0)]})
                         else:
                             if rec.create_uid:
                                 rec.message_post(body="Approval request failed since approval type is manager and no manager set for sale order created user",
@@ -833,8 +833,7 @@ for rec in self:
                                                  '<br/>''<br/>'
                                                  '<div style="margin: 16px 0px 16px 0px;">'
                                                  '<span>'
-                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href=' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(rec.id) + '&model=' + str(rec._name) + '&view_type=form' + '>View Record</a>'
-                                                 '</span>'
+                                                '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href="' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/odoo/' + str(rec._name) + '/' + str(rec.id) + '">View Record</a>'                                                 '</span>'
                                                 '</div>'
                                                 '<br/>''<br/>'
                                                 'Best regards''<br/>'
@@ -915,7 +914,7 @@ for rec in self:
                         if rec[approver.approver_field_id.name].ids:
                             val['approver_id'] = rec[approver.approver_field_id.name][0].id
                         if val['approver_id']:
-                            rec.x_approval_id.group_id.write({'users': [(4,val['approver_id'],0)]})
+                            rec.x_approval_id.group_id.write({'user_ids': [(4,val['approver_id'],0)]})
                         else:
                             if rec.create_uid and rec.id:
                                 rec.message_post(body="Approval request failed since approval type is Custom and Custom field does not meet the requirements for Custom Approval.",
@@ -964,8 +963,7 @@ for rec in self:
                                                  '<br/>''<br/>'
                                                  '<div style="margin: 16px 0px 16px 0px;">'
                                                  '<span>'
-                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href=' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(rec.id) + '&model=' + str(rec._name) + '&view_type=form' + '>View Record</a>'
-                                                 '</span>'
+                                                '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href="' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/odoo/' + str(rec._name) + '/' + str(rec.id) + '">View Record</a>'                                                 '</span>'
                                                 '</div>'
                                                 '<br/>''<br/>'
                                                 'Best regards''<br/>'
@@ -1005,7 +1003,7 @@ for rec in self:
                     elif approver.approval_type_id.approval_type == 'manager' and rec.create_uid:
                         if rec.create_uid.employee_id.parent_id.user_id:
                             val['approver_id'] = rec.create_uid.employee_id.parent_id.user_id.id
-                            rec.x_approval_id.group_id.write({'users': [(4,val['approver_id'],0)]})
+                            rec.x_approval_id.group_id.write({'user_ids': [(4,val['approver_id'],0)]})
                         else:
                             if rec.create_uid:
                                 rec.message_post(body="Approval request failed since approval type is manager and no manager set for sale order created user",
@@ -1054,7 +1052,7 @@ for rec in self:
                                                  '<br/>''<br/>'
                                                  '<div style="margin: 16px 0px 16px 0px;">'
                                                  '<span>'
-                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href=' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(rec.id) + '&model=' + str(rec._name) + '&view_type=form' + '>View Record</a>'
+                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href="' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/odoo/' + str(rec._name) + '/' + str(rec.id) + '">View Record</a>'
                                                  '</span>'
                                                 '</div>'
                                                 '<br/>''<br/>'
@@ -1164,8 +1162,7 @@ for rec in self:
                                          '<br/>''<br/>'
                                          '<div style="margin: 16px 0px 16px 0px;">'
                                          '<span>'
-                                         '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href=' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(rec.id) + '&model=' + str(rec._name) + '&view_type=form' + '>View Record</a>'
-                                         '</span>'
+                                        '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href="' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/odoo/' + str(rec._name) + '/' + str(rec.id) + '">View Record</a>'                                         '</span>'
                                         '</div>'
                                         '<br/>''<br/>'
                                         'Best regards''<br/>'
@@ -1294,7 +1291,7 @@ for rec in self:
                                          '<br/>''<br/>'
                                          '<div style="margin: 16px 0px 16px 0px;">'
                                          '<span>'
-                                         '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href=' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(rec.id) + '&model=' + str(rec._name) + '&view_type=form' + '>View Record</a>'
+                                         '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href="' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/odoo/' + str(rec._name) + '/' + str(rec.id) + '">View Record</a>'
                                          '</span>'
                                         '</div>'
                                         '<br/>''<br/>'
@@ -1389,7 +1386,7 @@ for rec in self:
                         if rec[approver.approver_field_id.name].ids:
                             val['approver_id'] = rec[approver.approver_field_id.name][0].id
                         if val['approver_id']:
-                            rec.x_approval_id.group_id.write({'users': [(4,val['approver_id'],0)]})
+                            rec.x_approval_id.group_id.write({'user_ids': [(4,val['approver_id'],0)]})
                         else:
                             if rec.create_uid and rec.id:
                                 rec.message_post(body="Approval request failed since approval type is Custom and Custom field does not meet the requirements for Custom Approval.",
@@ -1438,7 +1435,7 @@ for rec in self:
                                                  '<br/>''<br/>'
                                                  '<div style="margin: 16px 0px 16px 0px;">'
                                                  '<span>'
-                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href=' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(rec.id) + '&model=' + str(rec._name) + '&view_type=form' + '>View Record</a>'
+                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href="' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/odoo/' + str(rec._name) + '/' + str(rec.id) + '">View Record</a>'
                                                  '</span>'
                                                 '</div>'
                                                 '<br/>''<br/>'
@@ -1477,7 +1474,7 @@ for rec in self:
                     elif approver.approval_type_id.approval_type == 'manager' and rec.create_uid:
                         if rec.create_uid.employee_id.parent_id.user_id:
                             val['approver_id'] = rec.create_uid.employee_id.parent_id.user_id.id
-                            rec.x_approval_id.group_id.write({'users': [(4,val['approver_id'],0)]})
+                            rec.x_approval_id.group_id.write({'user_ids': [(4,val['approver_id'],0)]})
                         else:
                             if rec.create_uid:
                                 rec.message_post(body="Approval request failed since approval type is manager and no manager set for sale order created user",
@@ -1526,7 +1523,7 @@ for rec in self:
                                                  '<br/>''<br/>'
                                                  '<div style="margin: 16px 0px 16px 0px;">'
                                                  '<span>'
-                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href=' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(rec.id) + '&model=' + str(rec._name) + '&view_type=form' + '>View Record</a>'
+                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href="' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/odoo/' + str(rec._name) + '/' + str(rec.id) + '">View Record</a>'
                                                  '</span>'
                                                 '</div>'
                                                 '<br/>''<br/>'
@@ -1608,7 +1605,7 @@ for rec in self:
                         if rec[approver.approver_field_id.name].ids:
                             val['approver_id'] = rec[approver.approver_field_id.name][0].id
                         if val['approver_id']:
-                            rec.x_approval_id.group_id.write({'users': [(4,val['approver_id'],0)]})
+                            rec.x_approval_id.group_id.write({'user_ids': [(4,val['approver_id'],0)]})
                         else:
                             if rec.create_uid and rec.id:
                                 rec.message_post(body="Approval request failed since approval type is Custom and Custom field does not meet the requirements for Custom Approval.",
@@ -1657,7 +1654,7 @@ for rec in self:
                                                  '<br/>''<br/>'
                                                  '<div style="margin: 16px 0px 16px 0px;">'
                                                  '<span>'
-                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href=' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(rec.id) + '&model=' + str(rec._name) + '&view_type=form' + '>View Record</a>'
+                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href="' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/odoo/' + str(rec._name) + '/' + str(rec.id) + '">View Record</a>'
                                                  '</span>'
                                                 '</div>'
                                                 '<br/>''<br/>'
@@ -1696,7 +1693,7 @@ for rec in self:
                     elif approver.approval_type_id.approval_type == 'manager' and rec.create_uid:
                         if rec.create_uid.employee_id.parent_id.user_id:
                             val['approver_id'] = rec.create_uid.employee_id.parent_id.user_id.id
-                            rec.x_approval_id.group_id.write({'users': [(4,val['approver_id'],0)]})
+                            rec.x_approval_id.group_id.write({'user_ids': [(4,val['approver_id'],0)]})
                         else:
                             if rec.create_uid:
                                 rec.message_post(body="Approval request failed since approval type is manager and no manager set for sale order created user",
@@ -1745,7 +1742,7 @@ for rec in self:
                                                  '<br/>''<br/>'
                                                  '<div style="margin: 16px 0px 16px 0px;">'
                                                  '<span>'
-                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href=' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(rec.id) + '&model=' + str(rec._name) + '&view_type=form' + '>View Record</a>'
+                                                 '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href="' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/odoo/' + str(rec._name) + '/' + str(rec.id) + '">View Record</a>'
                                                  '</span>'
                                                 '</div>'
                                                 '<br/>''<br/>'
@@ -1855,7 +1852,7 @@ for rec in self:
                                          '<br/>''<br/>'
                                          '<div style="margin: 16px 0px 16px 0px;">'
                                          '<span>'
-                                         '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href=' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(rec.id) + '&model=' + str(rec._name) + '&view_type=form' + '>View Record</a>'
+                                         '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href="' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/odoo/' + str(rec._name) + '/' + str(rec.id) + '">View Record</a>'
                                          '</span>'
                                         '</div>'
                                         '<br/>''<br/>'
@@ -1988,7 +1985,7 @@ for rec in self:
                                          '<br/>''<br/>'
                                          '<div style="margin: 16px 0px 16px 0px;">'
                                          '<span>'
-                                         '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href=' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(rec.id) + '&model=' + str(rec._name) + '&view_type=form' + '>View Record</a>'
+                                         '<a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" href="' + str(self.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/odoo/' + str(rec._name) + '/' + str(rec.id) + '">View Record</a>'
                                          '</span>'
                                         '</div>'
                                         '<br/>''<br/>'
@@ -2227,9 +2224,9 @@ for user in users:
                 duration =  (user.end_date - user.start_date)
                 user.write({'approval_duration' : duration})
     user_id = env.user
-    mail_url = str(
-                    record.env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(
-                    record.id) + '&model=' + str(record._name) + '&view_type=form'
+    base_url = record.env["ir.config_parameter"].sudo().get_param("web.base.url").rstrip('/')
+
+    mail_url = base_url + '/odoo/' + str(record._name) + '/' + str(record.id)
     record.env['mail.mail'].sudo().create({
                     'subject': record._description + ' Approved',
                     'author_id': str(user_id.partner_id.id),
@@ -2488,7 +2485,13 @@ for record in self:
                 rec.write({'approval_email_status': 'sent'})
                 record.write({'x_email_status_checker': True})
                 if record.x_email_status_checker and rec.approver_id:
-                     mail_url=str(self.env["ir.config_parameter"].sudo().get_param("web.base.url"))+'/web#'+'id='+str(record.id)+'&model='+str(record._name)+'&view_type=form'
+                    mail_url = (
+                        str(self.env["ir.config_parameter"].sudo().get_param("web.base.url"))
+                        + '/odoo/'
+                        + str(record._name)
+                        + '/'
+                        + str(record.id)
+                    )
                      self.env['mail.mail'].sudo().create({
                         'subject': subject,
                         'author_id': str(user_id.partner_id.id),
@@ -2607,7 +2610,13 @@ for record in self:
                 rec.write({'approval_email_status': 'sent'})
                 record.write({'x_email_status_checker': True})
                 if record.x_email_status_checker and rec.approver_id:
-                     mail_url=str(self.env["ir.config_parameter"].sudo().get_param("web.base.url"))+'/web#'+'id='+str(record.id)+'&model='+str(record._name)+'&view_type=form'
+                     mail_url = (
+                        str(self.env["ir.config_parameter"].sudo().get_param("web.base.url"))
+                        + '/odoo/'
+                        + str(record._name)
+                        + '/'
+                        + str(record.id)
+                    )
                      self.env['mail.mail'].sudo().create({
                         'subject': subject,
                         'author_id': str(user_id.partner_id.id),
@@ -2780,9 +2789,8 @@ for record in data:
             if dealy_date <= datetime.datetime.now() and delayed_approver.approval_status == 'approve':
                 delayed_approver.write({'delay': True, 'authority_email_status': 'sent'})
                 break
-     mail_url = str(
-     env["ir.config_parameter"].sudo().get_param("web.base.url")) + '/web#' + 'id=' + str(
-     record.id) + '&model=' + str(record._name) + '&view_type=form'
+     base_url = env["ir.config_parameter"].sudo().get_param("web.base.url").rstrip('/')
+     mail_url = base_url + '/odoo/' + str(record._name) + '/' + str(record.id)
      if record.x_approval_id.enable_time_limit:
         for approver in record.x_approver_ids.filtered(lambda l: l.time_limit and l.approval_status == 'approve' and l.delay):
             if not approver.is_send:
@@ -3400,7 +3408,7 @@ for record in data:
                 if rec.x_approval_id.approval_method == 'hierarchy':
                     for lines in rec.x_approver_ids:
                         if lines.approver_id:
-                            rec.x_approval_id.group_id.write({'users': [(4,lines.approver_id.id,0)]})""",
+                            rec.x_approval_id.group_id.write({'user_ids': [(4,lines.approver_id.id,0)]})""",
                     }])
                 if not self.approves_automation_action_id:
                     self.approves_automation_action_id = self.env[
@@ -3425,7 +3433,7 @@ for record in data:
                 for rec in record.x_approver_ids:
                     if rec.approver_id:
                         if rec.approver_id.id not in record.x_approval_id.group_id.user_ids.mapped('id'):
-                            record.x_approval_id.group_id.write({'users': [(4,rec.approver_id.id,0)]})
+                            record.x_approval_id.group_id.write({'user_ids': [(4,rec.approver_id.id,0)]})
                     """,
                 }])
             self.state_specific_approves_automation_id = self.env[
@@ -3471,9 +3479,9 @@ for record in data:
             template = self.env.ref(
                 'all_in_one_dynamic_approvals_pro.mail_template_dynamic_approval')
             template.attachment_ids = data_id
-            mail_url = str(self.env["ir.config_parameter"].sudo().get_param(
-                "web.base.url")) + '/web#' + 'id=' + str(
-                self.id) + '&model=' + str(self._name) + '&view_type=form'
+            base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url").rstrip('/')
+
+            mail_url = base_url + '/odoo/' + str(self._name) + '/' + str(self.id)
             for user in eval(self.env['ir.config_parameter'].sudo().get_param(
                     'all_in_one_dynamic_approvals_pro.add_notify_users_ids')):
                 user_id = self.env['res.users'].browse(user)
@@ -3859,9 +3867,8 @@ for record in records:
             template = self.env.ref(
                 'all_in_one_dynamic_approvals_pro.mail_template_dynamic_approval')
             template.attachment_ids = data_id
-            mail_url = str(self.env["ir.config_parameter"].sudo().get_param(
-                "web.base.url")) + '/web#' + 'id=' + str(
-                self.id) + '&model=' + str(self._name) + '&view_type=form'
+            base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url").rstrip('/')
+            mail_url = base_url + '/odoo/' + str(self._name) + '/' + str(self.id)
             for user in eval(self.env['ir.config_parameter'].sudo().get_param(
                     'all_in_one_dynamic_approvals_pro.cancel_notify_users_ids')):
                 user_id = self.env['res.users'].browse(user)
