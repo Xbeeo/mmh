@@ -14,10 +14,12 @@
 
     'website': 'https://xbeeo.com',
 
-    "depends": ['base', 'basic_hms', 'contacts', 'hr', 'account', 'point_of_sale', 'report_xlsx', 'om_account_asset' ,'stock','mrp','purchase','hr_attendance'],
+    "depends": ['base', 'basic_hms', 'contacts', 'hr', 'account', 'point_of_sale', 'report_xlsx', 'om_account_asset',
+                'stock', 'mrp', 'purchase', 'hr_attendance'],
 
     "data": [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'data/ir_sequence_data.xml',
         'views/medical_patient_views.xml',
         'views/patient_village_views.xml',
@@ -63,6 +65,11 @@
         # 'report/pos/pos_profit_loss_report_template.xml',
         'views/menuitems_hide.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'xbo_mmh_custom/static/src/manual_attendance_systray.js',
+        ],
+    },
 
     'license': 'LGPL-3',
     'installable': True,

@@ -11,13 +11,18 @@
             <xpath expr="//page[@name='hr_settings']/group/group[@name='application_group']" position="after">
                 <group string="Payroll">
                     <group>
-                    	<field name="salary"/>
+                        <field name="salary"/>
                     </group>
                 </group>
+            </xpath>
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="employee_code"/>
+                <field name="manual_attendance"/>
             </xpath>
 
         </field>
     </record>
+
 
 </odoo>
 
