@@ -12,6 +12,7 @@ class CustomerBalanceWizard(models.TransientModel):
         lines = self.env['account.move.line'].search([
             ('partner_id', '=', partner.id),
             ('account_id.account_type', '=', 'asset_receivable'),
+            ('date', '>=', self.date_from),
             ('date', '<=', self.date_to),
             ('parent_state', '!=', 'cancelled'),
         ])

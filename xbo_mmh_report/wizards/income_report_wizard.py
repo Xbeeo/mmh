@@ -19,6 +19,7 @@ class IncomeReportWizard(models.TransientModel):
             ('state', '!=', 'cancel'),
             ('invoice_date', '>=', self.date_from),
             ('invoice_date', '<=', self.date_to),
+            ('company_id', 'in', self.env.companies.ids),
         ]
 
         return self.env['account.move'].search(
