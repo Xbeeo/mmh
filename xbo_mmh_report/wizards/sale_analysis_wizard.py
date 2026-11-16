@@ -1,4 +1,3 @@
-
 import base64
 import io
 
@@ -23,14 +22,6 @@ class SaleAnalysisWizard(models.TransientModel):
     def action_print(self):
         self.ensure_one()
 
-        if not (
-            self.department_id or self.dispensary_id
-            or self.patient_id or self.doctor_id or self.item_id
-        ):
-            raise ValidationError(
-                "Select at least one of Department, Dispensary, Patient, Doctor or Item."
-            )
-
         if self.date_from > self.date_to:
             raise ValidationError("Date From must be before Date To.")
 
@@ -39,6 +30,7 @@ class SaleAnalysisWizard(models.TransientModel):
             ('state', '!=', 'cancel'),
             ('invoice_date', '>=', self.date_from),
             ('invoice_date', '<=', self.date_to),
+            ('company_id', 'in', self.env.companies.ids),
         ]
 
         if self.department_id:
@@ -53,15 +45,18 @@ class SaleAnalysisWizard(models.TransientModel):
         if self.item_id:
             domain.append(('invoice_line_ids.product_id', '=', self.item_id.id))
 
-        moves = self.env['account.move'].search(
-            domain, order='invoice_date'
-        )
+        moves = self.env['account.move'].search(domain, order='invoice_date').sudo()
 
         if self.dispensary_id:
             name = (self.dispensary_id.name or '').strip()
             moves = moves.filtered(
                 lambda m: (m.ref or '').split('-')[0].strip() == name
             )
+
+        show_all = not (
+            self.department_id or self.dispensary_id
+            or self.patient_id or self.doctor_id or self.item_id
+        )
 
         only_item = bool(self.item_id) and not (
             self.department_id or self.dispensary_id
@@ -76,17 +71,29 @@ class SaleAnalysisWizard(models.TransientModel):
         data = {}
 
         for m in moves:
+            if show_all:
+                for l in m.invoice_line_ids.filtered(
+                    lambda l: l.display_type == 'product'
+                ):
+                    key = (
+                        m.invoice_date,
+                        m.department_id.display_name or '',
+                        (m.ref or '').split('-')[0].strip(),
+                        m.partner_id.display_name or '',
+                        m.doctor_id.display_name or '',
+                        l.product_id.display_name or '',
+                    )
+                    d = data.setdefault(key, {'patients': set(), 'amount': 0.0})
+                    d['amount'] += l.price_total
+                continue
+
             key = (
                 m.invoice_date,
                 (m.department_id.display_name or '')
                 if only_patient else ''
             )
 
-            d = data.setdefault(
-                key,
-                {'patients': set(), 'amount': 0.0}
-            )
-
+            d = data.setdefault(key, {'patients': set(), 'amount': 0.0})
             d['patients'].add(m.partner_id.id)
 
             if self.item_id:
@@ -113,27 +120,14 @@ class SaleAnalysisWizard(models.TransientModel):
 
         # Create Excel workbook
         buf = io.BytesIO()
-
         wb = xlsxwriter.Workbook(buf, {'in_memory': True})
-
         ws = wb.add_worksheet('Sale Analysis')
 
         # Formats
         bold = wb.add_format({'bold': True})
-
-        title = wb.add_format({
-            'bold': True,
-            'font_size': 14,
-        })
-
-        num = wb.add_format({
-            'num_format': '#,##0.00'
-        })
-
-        dfmt = wb.add_format({
-            'num_format': 'dd mmm yyyy',
-            'align': 'left'
-        })
+        title = wb.add_format({'bold': True, 'font_size': 14})
+        num = wb.add_format({'num_format': '#,##0.00'})
+        dfmt = wb.add_format({'num_format': 'dd mmm yyyy', 'align': 'left'})
 
         # Title
         ws.write(
@@ -146,32 +140,28 @@ class SaleAnalysisWizard(models.TransientModel):
         )
 
         # Printed By and Printed On
-        now = fields.Datetime.context_timestamp(
-            self,
-            fields.Datetime.now()
-        )
+        now = fields.Datetime.context_timestamp(self, fields.Datetime.now())
 
         ws.write(1, 0, 'Printed By', bold)
         ws.write(1, 1, self.env.user.name)
 
         ws.write(2, 0, 'Printed On', bold)
-        ws.write(
-            2, 1,
-            now.strftime('%d %B %Y %H:%M:%S')
-        )
+        ws.write(2, 1, now.strftime('%d %B %Y %H:%M:%S'))
 
         # Headers
-        extra = (
-            ['Department'] if only_patient
-            else ([] if only_item else ['No. of Patients'])
-        )
-
-        headers = (
-            ['Date']
-            + [f[0] for f in filters]
-            + extra
-            + ['Total Amount']
-        )
+        if show_all:
+            headers = [
+                'Date', 'Department', 'Dispensary', 'Patient',
+                'Doctor', 'Item', 'Total Amount',
+            ]
+        else:
+            extra = (
+                ['Department'] if only_patient
+                else ([] if only_item else ['No. of Patients'])
+            )
+            headers = (
+                ['Date'] + [f[0] for f in filters] + extra + ['Total Amount']
+            )
 
         for c, h in enumerate(headers):
             ws.write(4, c, h, bold)
@@ -181,13 +171,16 @@ class SaleAnalysisWizard(models.TransientModel):
         row = 5
 
         for key in sorted(data):
-            day = key[0]
-
             ws.write_datetime(
-                row, 0,
-                fields.Datetime.to_datetime(day),
-                dfmt
+                row, 0, fields.Datetime.to_datetime(key[0]), dfmt
             )
+
+            if show_all:
+                for c, v in enumerate(key[1:], start=1):
+                    ws.write(row, c, v)
+                ws.write_number(row, 6, data[key]['amount'], num)
+                row += 1
+                continue
 
             for c, f in enumerate(filters, start=1):
                 ws.write(row, c, f[1])
@@ -197,31 +190,18 @@ class SaleAnalysisWizard(models.TransientModel):
             if only_patient:
                 ws.write(row, n, key[1])
                 n += 1
-
             elif not only_item:
-                ws.write_number(
-                    row, n,
-                    len(data[key]['patients'])
-                )
+                ws.write_number(row, n, len(data[key]['patients']))
                 n += 1
 
-            ws.write_number(
-                row, n,
-                data[key]['amount'],
-                num
-            )
-
+            ws.write_number(row, n, data[key]['amount'], num)
             row += 1
 
-        # Close workbook
         wb.close()
 
         # Create attachment
         att = self.env['ir.attachment'].create({
-            'name': 'Sale_Analysis_%s_%s.xlsx' % (
-                self.date_from,
-                self.date_to
-            ),
+            'name': 'Sale_Analysis_%s_%s.xlsx' % (self.date_from, self.date_to),
             'type': 'binary',
             'datas': base64.b64encode(buf.getvalue()),
             'mimetype': (
