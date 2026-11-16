@@ -71,7 +71,7 @@ class ApprovalRejectReason(models.TransientModel):
                         '<tr>'
                         '<td valign="middle">'
                         '<span style="font-size: 10px;">' 'Approval Request Rejected''</span>''<br/>' +
-                        '<span style="font-size: 20px; font-weight: bold;">' + origin_obj.name + '</span>'
+                        '<span style="font-size: 20px; font-weight: bold;">' + (origin_obj.name or '') + '</span>'
                                                                                                  '</td>'
                                                                                                  '<td valign="middle" align="right">'
                                                                                                  '<img src="/logo.png?company= +record.company_id.logo+" style="padding: 0px; margin: 0px; height: auto; width: 80px;"/>'
@@ -90,8 +90,8 @@ class ApprovalRejectReason(models.TransientModel):
                                                                                                  '<tr>'
                                                                                                  '<td valign="top" style="font-size: 13px;">'
                                                                                                  '<div>'
-                                                                                                 'Dear' + ' ' + origin_obj.create_uid.name + ',' '<br/>''<br/>'
-                                                                                                                                             'Your  approval  request ' + origin_obj.name + ' ' + 'is rejected by ' + user.approver_id.name + '.'
+                                                                                                 'Dear' + ' ' + (origin_obj.create_uid.name or '') + ',' '<br/>''<br/>'
+                                                                                                                                             'Your  approval  request ' + (origin_obj.name or '') + ' ' + 'is rejected by ' + user.approver_id.name + '.'
                                                                                                                                                                                                                                               '<br/>''<br/>'
                                                                                                                                                                                                                                               '<div style="margin: 16px 0px 16px 0px;">'
                                                                                                                                                                                                                                               '<p>''Reject Reason is ' + user.reject_reason + '.' '</p>'
@@ -143,5 +143,5 @@ class ApprovalRejectReason(models.TransientModel):
                         body=origin_obj._description + " is Rejected and Reason is " + user.reject_reason + " .",
                         subject="Rejected")
                     origin_obj.message_post(
-                        body="The request is Rejected and traceback sent to " + origin_obj.create_uid.name + " .",
+                        body="The request is Rejected and traceback sent to " + (origin_obj.create_uid.name or '') + " .",
                         subject="Rejection Mail")

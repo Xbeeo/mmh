@@ -2243,7 +2243,7 @@ for user in users:
                         '<tr>'
                         '<td valign="middle">'
                         '<span style="font-size: 10px;">' 'Approval Request Approved''</span>''<br/>' +
-                        '<span style="font-size: 20px; font-weight: bold;">' + record.name + '</span>'
+                        '<span style="font-size: 20px; font-weight: bold;">' + (record.name or '') + '</span>'
                          '</td>'
                          '<td valign="middle" align="right">'
                          '<img src="/logo.png?company=" + record.company_id.id + style="padding: 0px; margin: 0px; height: auto; width: 80px;"/>'
@@ -2263,7 +2263,7 @@ for user in users:
                          '<td valign="top" style="font-size: 13px;">'
                          '<div>'
                          'Dear' + ' ' + record.create_uid.name + ',' '<br/>''<br/>'
-                         'Your  approval  request ' + record.name + ' ' + 'is Approved by ' +user.approver_id.name+ '.'
+                         'Your  approval  request ' + (record.name or '') + ' ' + 'is Approved by ' +user.approver_id.name+ '.'
                          '<br/>''<br/>'
                          '<div style="margin: 16px 0px 16px 0px;">'
                          '<span>'
@@ -2333,7 +2333,7 @@ for user in users:
                             '<tr>'
                             '<td valign="middle">'
                             '<span style="font-size: 10px;">' 'Need Approval''</span>''<br/>' +
-                            '<span style="font-size: 20px; font-weight: bold;">' + record.name + '</span>'
+                            '<span style="font-size: 20px; font-weight: bold;">' + (record.name or '') + '</span>'
                              '</td>'
                              '<td valign="middle" align="right">'
                              '<img src="/logo.png?company=" + record.company_id.id + style="padding: 0px; margin: 0px; height: auto; width: 80px;"/>'
@@ -2353,7 +2353,7 @@ for user in users:
                              '<td valign="top" style="font-size: 13px;">'
                              '<div>'
                              'Dear' + ' ' + str(next_user_id.approver_id.name) + ',' '<br/>''<br/>'
-                             'You have a new approval request from ' + record.create_uid.name + ' ' + 'of ' +record.name+ '.' '<br/>'
+                             'You have a new approval request from ' + record.create_uid.name + ' ' + 'of ' +(record.name or '')+ '.' '<br/>'
                              '<span style="color: red;">' 'The approval time limit of the request is ' + str(user.time_limit) + ' Hour .' '</span>'
                              '<br/>''<br/>'
                              '<div style="margin: 16px 0px 16px 0px;">'
@@ -2508,7 +2508,7 @@ for record in self:
                                         '<tr>'
                                             '<td valign="middle">'
                                                 '<span style="font-size: 10px;">' 'Need Approval''</span>''<br/>' +
-                                                '<span style="font-size: 20px; font-weight: bold;">' + record.name + '</span>'
+                                                '<span style="font-size: 20px; font-weight: bold;">' + (record.name or '') + '</span>'
                                             '</td>'
                                             '<td valign="middle" align="right">'
                                                 '<img src="/logo.png?company=" + record.company_id.id + style="padding: 0px; margin: 0px; height: auto; width: 80px;"/>'
@@ -2528,7 +2528,7 @@ for record in self:
                                             '<td valign="top" style="font-size: 13px;">'
                                             '<div>'
                                                 'Dear' + ' ' +rec.approver_id.name+ ',' '<br/>''<br/>'
-                                                'You have a new Approval  request from' + ' ' +record.create_uid.name + ' ' + 'of' + ' ' + record.name + '.' '<br/>'
+                                                'You have a new Approval  request from' + ' ' +record.create_uid.name + ' ' + 'of' + ' ' + (record.name or '') + '.' '<br/>'
                                                 '<span style="color: red;">' 'The approval time limit of the request is ' + str(rec.time_limit) + ' Hour .' '</span>'
                                                 '<br/>''<br/>'
                                                 '<div style="margin: 16px 0px 16px 0px;">'
@@ -2633,7 +2633,7 @@ for record in self:
                                         '<tr>'
                                             '<td valign="middle">'
                                                 '<span style="font-size: 10px;">' 'Need Approval''</span>''<br/>' +
-                                                '<span style="font-size: 20px; font-weight: bold;">' + record.name + '</span>'
+                                                '<span style="font-size: 20px; font-weight: bold;">' + (record.name or '') + '</span>'
                                             '</td>'
                                             '<td valign="middle" align="right">'
                                                 '<img src="/logo.png?company=" + record.company_id.id + style="padding: 0px; margin: 0px; height: auto; width: 80px;"/>'
@@ -2653,7 +2653,7 @@ for record in self:
                                             '<td valign="top" style="font-size: 13px;">'
                                             '<div>'
                                                 'Dear' + ' ' +rec.approver_id.name+ ',' '<br/>''<br/>'
-                                                'You have a new Approval  request from' + ' ' +record.create_uid.name + ' ' + 'of' + ' ' + record.name + '.' '<br/>'
+                                                'You have a new Approval  request from' + ' ' +record.create_uid.name + ' ' + 'of' + ' ' + (record.name or '') + '.' '<br/>'
                                                 '<span style="color: red;">' 'The approval time limit of the request is ' + str(rec.time_limit) + ' Hour .' '</span>'
                                                 '<br/>''<br/>'
                                                 '<div style="margin: 16px 0px 16px 0px;">'
@@ -2809,7 +2809,7 @@ for record in data:
                             '<tr>'
                             '<td valign="middle">'
                             '<span style="font-size: 10px;">' 'Approval Delayed''</span>''<br/>' +
-                            '<span style="font-size: 20px; font-weight: bold;">' + record.name + '</span>'
+                            '<span style="font-size: 20px; font-weight: bold;">' + (record.name or '') + '</span>'
                              '</td>'
                              '<td valign="middle" align="right">'
                              '<img src="/logo.png?company=" + record.company_id.id + style="padding: 0px; margin: 0px; height: auto; width: 80px;"/>'
@@ -2829,7 +2829,7 @@ for record in data:
                              '<td valign="top" style="font-size: 13px;">'
                              '<div>'
                              'Dear' + ' ' + record.create_uid.name + ',' '<br/>''<br/>'
-                             'Your  approval  request ' + record.name + ' ' + 'is Delayed by ' +approver.approver_id.name+ '.'
+                             'Your  approval  request ' + (record.name or '') + ' ' + 'is Delayed by ' +approver.approver_id.name+ '.'
                              'Its escalated to the authority ' + str(record.x_approval_id.user_ids.mapped('partner_id.name')) + ' .'
                              '<br/>''<br/>'
                              '<div style="margin: 16px 0px 16px 0px;">'
@@ -2897,7 +2897,7 @@ for record in data:
                                         '<tr>'
                                         '<td valign="middle">'
                                         '<span style="font-size: 10px;">' 'Approval Delayed''</span>''<br/>' +
-                                        '<span style="font-size: 20px; font-weight: bold;">' + record.name + '</span>'
+                                        '<span style="font-size: 20px; font-weight: bold;">' + (record.name or '') + '</span>'
                                          '</td>'
                                          '<td valign="middle" align="right">'
                                          '<img src="/logo.png?company=" + record.company_id.id + style="padding: 0px; margin: 0px; height: auto; width: 80px;"/>'
@@ -2917,7 +2917,7 @@ for record in data:
                                          '<td valign="top" style="font-size: 13px;">'
                                          '<div>'
                                          'Dear' + ' ' + authority.name + ',' '<br/>''<br/>'
-                                         'The  approval  request ' + record.name + ' ' + 'is Dealyed by ' +approver.approver_id.name+ '.'
+                                         'The  approval  request ' + (record.name or '') + ' ' + 'is Dealyed by ' +approver.approver_id.name+ '.'
                                          '<br/>''<br/>'
                                          '<div style="margin: 16px 0px 16px 0px;">'
                                          '<span>'
@@ -2969,7 +2969,7 @@ for record in data:
                                 }).send()
             record.write({'x_reminder_mail': True})
             if record.env['ir.model'].search([('model', '=', '""" + model + """')]).is_mail_thread:
-                record.message_post(body="Approval request " + record.name + " delayed by " + approver.approver_id.name + "." "Its escalated to the authority" + str(record.x_approval_id.user_ids.mapped('partner_id.name')) + " ." , subject="Approval Request Delayed")
+                record.message_post(body="Approval request " + (record.name or '') + " delayed by " + approver.approver_id.name + "." "Its escalated to the authority" + str(record.x_approval_id.user_ids.mapped('partner_id.name')) + " ." , subject="Approval Request Delayed")
                 record.message_post(body="The approval request is delayed and Info mail sent to the created user " + record.create_uid.name+" .", subject="Approval Delayed")
                                 """
                             })
