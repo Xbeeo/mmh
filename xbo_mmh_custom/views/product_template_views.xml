@@ -7,6 +7,7 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
+
                 <xpath expr="//form/sheet" position="before">
                     <button name="action_update_medicament"
                             string="Update Medicament"
@@ -22,11 +23,11 @@
                             <group>
                                 <field name="is_checkup_fees" invisible="0"/>
                                 <field name="is_doctor_share" invisible="0"/>
-                                <field name="analytic_account_id" />
+                                <field name="analytic_account_id"/>
                             </group>
                             <group>
-                                 <field name="create_mrp_order" />
-                                <field name="done_mrp_order" />
+                                <field name="create_mrp_order"/>
+                                <field name="done_mrp_order"/>
                             </group>
                         </group>
                     </page>

@@ -3,6 +3,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.exceptions import ValidationError
+from .view_access import hide_edit_buttons, PRODUCT_EDITOR_GROUP
 
 class ProductProductInherit(models.Model):
     _inherit = 'product.product'
@@ -14,3 +15,8 @@ class ProductProductInherit(models.Model):
     done_mrp_order = fields.Boolean(string="Done MRP Order",related='product_tmpl_id.done_mrp_order', store=True)
 
     analytic_account_id = fields.Many2one(comodel_name='account.analytic.account',related='product_tmpl_id.analytic_account_id', store=True)
+
+    @api.model
+    def get_view(self, view_id=None, view_type='form', **options):
+        result = dict(super().get_view(view_id, view_type, **options))
+        return hide_edit_buttons(self.env, result, PRODUCT_EDITOR_GROUP)

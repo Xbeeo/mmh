@@ -32,3 +32,7 @@ from . import medical_test_critearea_inherit
 from . import medical_inpatient_registration
 from . import medical_physician
 from . import send_email_user
+from . import account_payment_register
+from . import view_access
+from . import account_account
+from . import base_view

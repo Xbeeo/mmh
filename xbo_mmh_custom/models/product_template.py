@@ -4,12 +4,16 @@ import itertools
 import logging
 from collections import defaultdict
 from odoo import _, api, fields, models, tools
+from .view_access import hide_edit_buttons, PRODUCT_EDITOR_GROUP
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools.image import is_image_size_above
 
 _logger = logging.getLogger(__name__)
 PRICE_CONTEXT_KEYS = ['pricelist', 'quantity', 'uom', 'date']
+
+
+
 
 class ProductTemplateInheritFRM(models.Model):
     _inherit = 'product.template'
@@ -111,3 +115,8 @@ class ProductTemplateInheritFRM(models.Model):
             for x in obj:
                 x.price  = self.list_price
                 x.qty_available = self.qty_available
+
+    @api.model
+    def get_view(self, view_id=None, view_type='form', **options):
+        result = dict(super().get_view(view_id, view_type, **options))
+        return hide_edit_buttons(self.env, result, PRODUCT_EDITOR_GROUP)
